@@ -1,10 +1,19 @@
 package com.algorithms.quickfind;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class QuickFindMain {
 
 	public static void main(String[] args) {
+		QuickFind[] qfAr = new QuickFind[2];
+		
+		Map<String , String> map = new HashMap<String, String>();
+		map.put(new String("aa"), "value");
+		
+		System.out.println(map.get("aa"));
+		
 		QuickFind qf = new QuickFind();
 		qf.union(4, 3);
 		qf.union(3, 8);
