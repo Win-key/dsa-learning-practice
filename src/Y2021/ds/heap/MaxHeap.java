@@ -139,8 +139,8 @@ public class MaxHeap {
     }
 
     public String print() {
-        Optional<String> reduce = IntStream.range(0, size).mapToObj(i->heap[i]+"").reduce((a,b)->a+","+b);
-        return reduce.isPresent() ? reduce.get() : "";
+        Optional<String> reduce = IntStream.range(0, size).mapToObj(i-> heap[i] + "").reduce((a, b)->a+","+b);
+        return reduce.orElse("");
     }
     
     public String printRaw() {
