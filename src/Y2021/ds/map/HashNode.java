@@ -36,6 +36,6 @@ public class HashNode <K,V> {
 
     @Override
     public String toString() {
-        return getKey() + " : " + getValue();
+        return "\"" +getKey() + "\" : \"" + getValue() + "\"";
     }
 }

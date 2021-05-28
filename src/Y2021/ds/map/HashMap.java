@@ -18,10 +18,33 @@ public class HashMap <K,V> {
         hashNodes = getBucketList();
     }
 
-    public void put(K key, V value) {
-        if(Objects.isNull(key)) {
-            throw new IllegalArgumentException("Key could not be Null");
+    public V get(K key) {
+        int hashIndex = findHashIndex(key);
+        HashNode<K, V> headNode = hashNodes.get(hashIndex);
+        while(Objects.nonNull(headNode)) {
+            if(headNode.getKey().equals(key)) {
+                // Key found in Hash, update the value
+                return headNode.getValue();
+            }
+            headNode = headNode.getNext();
         }
+        return null;
+    }
+
+    public boolean containsKey(K key) {
+        int hashIndex = findHashIndex(key);
+        HashNode<K, V> headNode = hashNodes.get(hashIndex);
+        while(Objects.nonNull(headNode)) {
+            if(headNode.getKey().equals(key)) {
+                // Key found in Hash, update the value
+                return true;
+            }
+            headNode = headNode.getNext();
+        }
+        return false;
+    }
+
+    public void put(K key, V value) {
         // find hash index
         int hashIndex = findHashIndex(key);
         // check if key already there
@@ -47,7 +70,7 @@ public class HashMap <K,V> {
         double currentLF = (double) size / buckets;
         if (currentLF > loadFactor) {
             buckets *= 2;
-            System.out.println("Resizing the hash table : current load factor = " + currentLF + ", buckets = " + buckets);
+//            System.out.println("Resizing the hash table : current load factor = " + currentLF + ", buckets = " + buckets);
             ArrayList<HashNode <K,V>> tempNodeList = hashNodes;
             hashNodes = getBucketList();
             size = 0;
@@ -58,6 +81,31 @@ public class HashMap <K,V> {
                 }
             }
         }
+    }
+
+    public V remove(K key) {
+        int hashIndex = findHashIndex(key);
+        HashNode<K, V> headNode = hashNodes.get(hashIndex);
+        HashNode<K, V> prevNode = null;
+        while(Objects.nonNull(headNode)) {
+            if(headNode.getKey().equals(key)) {
+                // Key found in Hash
+                V removed = headNode.getValue();
+                // Check, if curr node is head
+                if(Objects.nonNull(prevNode)) {
+                    prevNode.setNext(headNode.getNext());
+                }else {
+                    // if node to be deleted is head, then next node should be moved to head
+                    hashNodes.set(hashIndex, headNode.getNext());
+                }
+                // curr node completely de-referred
+                headNode.setNext(null);
+                return removed;
+            }
+            prevNode = headNode;
+            headNode = headNode.getNext();
+        }
+        return null;
     }
 
     private ArrayList<HashNode<K, V>> getBucketList() {
