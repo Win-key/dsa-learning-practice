@@ -1,4 +1,4 @@
-package Y2021.cci.arraysandstring;
+package Y2021.ds.arraysandstring.cci;
 
 public class PalindromePermutation {
 

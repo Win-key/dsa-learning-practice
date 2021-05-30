@@ -1,6 +1,4 @@
-package Y2021.cci.arraysandstring;
-
-import java.util.Arrays;
+package Y2021.ds.arraysandstring.cci;
 
 /**
  *

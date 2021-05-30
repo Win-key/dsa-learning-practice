@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * @author Venkatesh Rajendran
@@ -15,6 +16,15 @@ public class LinkedList<T> implements List<T> {
     private Node<T> head;
     private int size = 0;
 
+
+    @Override
+    public void forEach(Consumer<? super T> action) {
+        Node<T> temp = head;
+        while(Objects.nonNull(temp)) {
+            action.accept(temp.data);
+            temp = temp.next;
+        }
+    }
 
     @Override
     public int size() {
@@ -33,7 +43,44 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new Iterator<T>() {
+
+            private Node<T> temp;
+            private Node<T> prev;
+
+            @Override
+            public boolean hasNext() {
+                if(Objects.isNull(temp)) {
+                    return Objects.nonNull(head);
+                }
+                return Objects.nonNull(temp.next);
+            }
+
+            @Override
+            public T next() {
+                if(Objects.isNull(temp)) {
+                    temp = head;
+                }else {
+                    prev = temp;
+                    temp = temp.next;
+                }
+                return temp.data;
+            }
+
+            @Override
+            public void remove() {
+                if(Objects.isNull(prev)) {
+                    head = head.next;
+                    return;
+                }
+                prev.next = temp.next;
+
+                // current element is removed
+                // prev as temp, so we can handle the element removal caz of list modification
+                temp = prev;
+                size--;
+            }
+        };
     }
 
     @Override
