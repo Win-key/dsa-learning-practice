@@ -22,32 +22,25 @@ public class PalindromePermutation {
         // fixme : how to avoid toLoweCasing?
         // s = s.toLowerCase();
         // create ascii array
-        boolean[] asciAr = new boolean[128];
-
+        int[] asciAr = new int[26];
+        int oddCounter = 0;
         // scan through the array and invert the flag
         // odd chars will be set to true
         // ignore space
-        for (char c :
-                s.toCharArray()) {
+        for (char c : s.toCharArray()) {
             // handle upper case letters
-            if(64 < c && c < 91){
+            if('A' <= c && c <= 'Z'){
                 c = (char) (c + 32);
             }
-            if(c != ' ') {
-                asciAr[c] = !asciAr[c];
+            if('a' <= c && c <= 'z') {
+                asciAr[c-'a']++;
+                if (asciAr[c-'a'] % 2 == 1)
+                    oddCounter++;
+                else
+                    oddCounter--;
             }
         }
-        // count chars with true flag
-        // more than 1 means not a palindrome
-        int trueCount = 0;
-        for (boolean f :
-                asciAr) {
-            if(f)
-                trueCount++;
-            if(trueCount > 1)
-                return false;
-        }
-        return true;
+        return oddCounter < 2;
     }
 
     /**
