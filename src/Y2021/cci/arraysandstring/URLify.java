@@ -40,6 +40,7 @@ public class URLify {
         return sb.toString();
     }
 
+
     public static void urlify(char[] s, int trueLength) {
 
         // since we have enough space at the end of the string, 
