@@ -13,7 +13,7 @@ public class PalindromePermutation {
 
     public static boolean checkPalindromePermutation(String s) {
         // fixme : how to avoid toLoweCasing?
-        s = s.toLowerCase();
+        // s = s.toLowerCase();
         // create ascii array
         boolean[] asciAr = new boolean[128];
 
@@ -22,6 +22,10 @@ public class PalindromePermutation {
         // ignore space
         for (char c :
                 s.toCharArray()) {
+            // handle upper case letters
+            if(64 < c && c < 91){
+                c = (char) (c + 32);
+            }
             if(c != ' ') {
                 asciAr[c] = !asciAr[c];
             }
