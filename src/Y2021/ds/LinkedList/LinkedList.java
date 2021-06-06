@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 /**
  * @author Venkatesh Rajendran
@@ -16,6 +17,9 @@ public class LinkedList<T> implements List<T> {
     private Node<T> head;
     private int size = 0;
 
+    public Node<T> getHead() {
+        return head;
+    }
 
     @Override
     public void forEach(Consumer<? super T> action) {
@@ -226,5 +230,11 @@ public class LinkedList<T> implements List<T> {
             temp = temp.next;
         }
         return temp;
+    }
+
+    public static LinkedList<Integer> getMeASample() {
+        LinkedList<Integer> list = new LinkedList<>();
+        IntStream.range(1,11).forEach(list::add);
+        return list;
     }
 }
