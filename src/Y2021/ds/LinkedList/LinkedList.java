@@ -237,4 +237,24 @@ public class LinkedList<T> implements List<T> {
         IntStream.range(1,11).forEach(list::add);
         return list;
     }
+
+    public void removeMiddle() {
+        removeMiddle(head, 1);
+    }
+
+    private int removeMiddle(Node<T> head, int index) {
+        if(Objects.isNull(head)) {
+            return index / 2;
+        }
+
+        int middle = removeMiddle(head.next, index+ 1);
+        if(index == middle - 1) {
+            Node<T> temp = head.next;
+            if (Objects.nonNull(temp) && Objects.nonNull(temp.next)) {
+                head.next = temp.next;
+                temp.next = null;
+            }
+        }
+        return middle;
+    }
 }
