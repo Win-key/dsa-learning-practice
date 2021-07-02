@@ -23,6 +23,9 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public void forEach(Consumer<? super T> action) {
+        if(Objects.isNull(head)) {
+            throw new IllegalStateException("Empty list");
+        }
         Node<T> temp = head;
         while(Objects.nonNull(temp)) {
             action.accept(temp.data);
@@ -239,21 +242,21 @@ public class LinkedList<T> implements List<T> {
     }
 
     public void removeMiddle() {
-        removeMiddle(head, 1);
+        removeMiddle(null, head, 0);
     }
 
-    private int removeMiddle(Node<T> head, int index) {
+    private int removeMiddle(Node<T> prev, Node<T> head, int index) {
         if(Objects.isNull(head)) {
             return index / 2;
         }
 
-        int middle = removeMiddle(head.next, index+ 1);
-        if(index == middle - 1) {
-            Node<T> temp = head.next;
-            if (Objects.nonNull(temp) && Objects.nonNull(temp.next)) {
-                head.next = temp.next;
-                temp.next = null;
+        int middle = removeMiddle(head, head.next, index+ 1);
+        if(index == middle) {
+            if (Objects.isNull(prev)) {
+                this.head = null;
+                return middle;
             }
+            prev.next = head.next;
         }
         return middle;
     }

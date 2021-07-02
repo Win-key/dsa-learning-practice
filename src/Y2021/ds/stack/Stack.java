@@ -19,6 +19,7 @@ public class Stack<T> {
         node.setData(data);
         node.setNext(top);
         top = node;
+        size++;
     }
 
     public T pop() {
@@ -28,6 +29,7 @@ public class Stack<T> {
         Node<T> temp = top;
         top = top.getNext();
         temp.setNext(null);
+        size--;
         return temp.getData();
     }
 
