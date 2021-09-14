@@ -3,9 +3,7 @@ package Y2021.GFG.recursion;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LexSort {
 
@@ -26,28 +24,28 @@ public class LexSort {
 
     // when string is already in sorted like abc or bcdef this will generate the subsets in lexico order
     // time : O(2^n), space: O(n)
-    private static void powerSet(String taken, String left, Collection<String> lex){
-        if(left.length() == 0) {
+    private static void powerSet(String taken, String left, Collection<String> lex) {
+        if (left.length() == 0) {
             lex.add(taken);
             return;
         }
-        for(int i = -1; i < left.length(); i++) {
-            if(i == -1){
+        for (int i = -1; i < left.length(); i++) {
+            if (i == -1) {
                 powerSet(taken, "", lex);
-            }else {
-                powerSet(taken + left.charAt(i), left.substring(i+1), lex);
+            } else {
+                powerSet(taken + left.charAt(i), left.substring(i + 1), lex);
             }
         }
     }
 
     // this takes 2^n time and n space
-    private static void powerSet(String s, String sub, List<String> lex, int index){
-        if(s.length() == index) {
+    private static void powerSet(String s, String sub, List<String> lex, int index) {
+        if (s.length() == index) {
             lex.add(sub);
             return;
         }
-        powerSet(s, sub, lex, index+1);
-        powerSet(s, sub + s.charAt(index), lex, index+1);
+        powerSet(s, sub, lex, index + 1);
+        powerSet(s, sub + s.charAt(index), lex, index + 1);
     }
 
-    }
+}
