@@ -42,11 +42,11 @@ public class ArraysPractices {
         System.out.println(majorityElementsMooreAlgo(8,3,4,8,8));
         System.out.println(majorityElementsMooreAlgo(3,7,4,7,7,5));
         System.out.println(majorityElementsMooreAlgo(20,30,40,50,50,50,50));
-        minGroupFlipsEfficient(1,0,0,0,1,0,0,1,1,1,1);
-        minGroupFlipsEfficient(1,1,0,0,0,1);
-        minGroupFlipsEfficient(0,1,0,0,0,1);
-        minGroupFlipsEfficient(1,1,1);
-        minGroupFlipsEfficient(0,1);
+        minGroupFlipsMoreEfficient(1,0,0,0,1,0,0,1,1,1,1);
+        minGroupFlipsMoreEfficient(1,1,0,0,0,1);
+        minGroupFlipsMoreEfficient(0,1,0,0,0,1);
+        minGroupFlipsMoreEfficient(1,1,1);
+        minGroupFlipsMoreEfficient(0,1);
     }
 
     private static int majorityElementsMooreAlgo(int... ar) {
@@ -417,6 +417,22 @@ public class ArraysPractices {
                 System.out.printf("From %d to %d%n", j, k-1);
                 j = k;
             }
+        }
+    }
+
+    public static void minGroupFlipsMoreEfficient(int ... ar){
+        System.out.println(Arrays.toString(ar));
+        for (int i = 1; i < ar.length; i++) {
+            if (ar[i] != ar[i-1]) {
+                if(ar[i] != ar[0]) {
+                    System.out.print("From "+ i);
+                }else {
+                    System.out.println(" to "+ (i-1));
+                }
+            }
+        }
+        if(ar[0] != ar[ar.length-1]) {
+            System.out.println(" to "+ (ar.length-1));
         }
     }
 

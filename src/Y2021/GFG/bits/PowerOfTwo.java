@@ -17,13 +17,13 @@ public class PowerOfTwo {
 
 
 
-        System.out.println("byBriansAlgo 8: " + byBriansAlgo(8));
-        System.out.println("byBriansAlgo 10: " + byBriansAlgo(10));
-        System.out.println("byBriansAlgo 16: " + byBriansAlgo(16));
+        System.out.println("byBriansAlgo 8: " + byBrainsAlgo(8));
+        System.out.println("byBriansAlgo 10: " + byBrainsAlgo(10));
+        System.out.println("byBriansAlgo 16: " + byBrainsAlgo(16));
 
-        System.out.println("byBriansAlgo 256: " + byBriansAlgo(256));
-        System.out.println("byBriansAlgo 32: " + byBriansAlgo( 32));
-        System.out.println("byBriansAlgo 56: " + byBriansAlgo(56));
+        System.out.println("byBriansAlgo 256: " + byBrainsAlgo(256));
+        System.out.println("byBriansAlgo 32: " + byBrainsAlgo( 32));
+        System.out.println("byBriansAlgo 56: " + byBrainsAlgo(56));
 
 
         System.out.println("getFirstSetBit 18: " + getFirstSetBit(18));
@@ -55,7 +55,7 @@ public class PowerOfTwo {
         return CheckKthBit.countSetBitLookUp(n) == 1;
     }
 
-    public static boolean byBriansAlgo(int n) {
+    public static boolean byBrainsAlgo(int n) {
         return (n != 0) && (n & (n-1)) == 0;
     }
 
