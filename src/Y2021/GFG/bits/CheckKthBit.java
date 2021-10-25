@@ -145,6 +145,12 @@ public class CheckKthBit {
      * @param n
      */
     public static int swapBits(int n) {
+
+      int a = 0xaaaaaaaa;
+      int b = 0x55555555;
+      System.out.println(a + " : "+Integer.toBinaryString(a));
+      System.out.println(b + " : "+Integer.toBinaryString(b));
+
         return ((n & 0xaaaaaaaa) >> 1) | ((n & 0x55555555) << 1);
     }
 }
