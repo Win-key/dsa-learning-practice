@@ -73,4 +73,27 @@ public class FindInRotatedSortedArray {
         return -1;
     }
 
+    public static int search(int l, int r, int x, int[] ar) {
+        if (l > r) {
+            return -1;
+        }
+        int mid = (l + r) >>> 1;
+        if (ar[mid] == x) {
+            return mid;
+        } else if (ar[l] <= ar[mid]) {
+            if (x >= ar[l] && x <= ar[mid]) {
+                return search(l, mid - 1, x, ar);
+            } else {
+                return search(mid + 1, r, x, ar);
+            }
+        } else {
+            if (x >= ar[mid] && x <= ar[r]) {
+                return search(mid + 1, r, x, ar);
+            } else {
+                return search(l, mid - 1, x, ar);
+            }
+        }
+
+    }
+
 }

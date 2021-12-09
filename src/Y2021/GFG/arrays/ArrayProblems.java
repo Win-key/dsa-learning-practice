@@ -1,12 +1,17 @@
 package Y2021.GFG.arrays;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ArrayProblems {
 
-    public static void main(String[] args) {
+
+
+    public static void main(String[] args) throws NoSuchMethodException {
+        Method main = ArrayProblems.class.getDeclaredMethod("main", String[].class);
+        
         reverseInGroups(new ArrayList<>(List.of(1, 2, 3, 4, 5)), 5, 3);
         reverseInGroups(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7)), 7, 3);
         reverseInGroups(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8 ,9)), 9, 5);
