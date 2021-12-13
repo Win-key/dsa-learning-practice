@@ -1,14 +1,15 @@
 package Y2021.adventOfCode;
 
+import Y2021.adventOfCode.input.DataReader;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class Day6 {
 
     public static void main(String[] args) throws Exception {
-        String[] input = DataReader.readInput("file:///C:/Users/Windows/Documents/WinKey/Practice/AdvantOfCode/day6.txt").get(0).split(",");
+        String[] input = DataReader.readInput("/day6.txt").get(0).split(",");
         Map<Long, Long> counter = new HashMap<>();
         for (String s: input) {
             Long i = Long.valueOf(s);

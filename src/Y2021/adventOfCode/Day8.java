@@ -1,5 +1,7 @@
 package Y2021.adventOfCode;
 
+import Y2021.adventOfCode.input.DataReader;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,7 +15,7 @@ public class Day8 {
     static Map<Integer, Integer> segmentMapper = Map.of(2, 1, 4, 4, 3, 7, 7, 8);
 
     public static void main(String[] args) throws Exception {
-        List<SignalValue> input = DataReader.readInput("file:///C:/Users/Windows/Documents/WinKey/Practice/AdvantOfCode/day8.txt")
+        List<SignalValue> input = DataReader.readInput("/day8.txt")
                 .stream()
                 .map(SignalValue::build)
                 .collect(Collectors.toList());

@@ -1,5 +1,7 @@
 package Y2021.adventOfCode;
 
+import Y2021.adventOfCode.input.DataReader;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,7 +17,7 @@ public class Day12 {
 
     public static void main(String[] args) throws Exception {
         Map<String, Node> nodeMap = new HashMap<>(Map.of("start", new Node("start"), "end", new Node("end")));
-        List<String> input = DataReader.readInput("file:///C:/Users/Windows/Documents/WinKey/Practice/AdvantOfCode/day12.txt");
+        List<String> input = DataReader.readInput("/day12.txt");
         for (String s : input) {
             String[] ar = s.split("-");
             for (String a : ar) {

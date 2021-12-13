@@ -1,5 +1,7 @@
 package Y2021.adventOfCode;
 
+import Y2021.adventOfCode.input.DataReader;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +12,7 @@ import java.util.function.BiFunction;
 public class Day7 {
 
     public static void main(String[] args) throws Exception {
-        int[] input = Arrays.stream(DataReader.readInput("file:///C:/Users/Windows/Documents/WinKey/Practice/AdvantOfCode/day7.txt")
+        int[] input = Arrays.stream(DataReader.readInput("/day7.txt")
                 .get(0).split(","))
                 .mapToInt(Integer::parseInt)
                 .toArray();

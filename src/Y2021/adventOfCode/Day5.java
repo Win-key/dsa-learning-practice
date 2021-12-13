@@ -1,5 +1,7 @@
 package Y2021.adventOfCode;
 
+import Y2021.adventOfCode.input.DataReader;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,7 +11,7 @@ public class Day5 {
     private static int maxX = 0;
     private static int maxY = 0;
     public static void main(String[] args) throws Exception {
-        List<Integer[][]> input = DataReader.readInput("file:///C:/Users/Windows/Documents/WinKey/Practice/AdvantOfCode/day5.txt")
+        List<Integer[][]> input = DataReader.readInput("/day5.txt")
                                     .stream()
                                     .map(Day5::buildXYLines)
                                     .collect(Collectors.toList());

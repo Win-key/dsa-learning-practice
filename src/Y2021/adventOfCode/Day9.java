@@ -1,5 +1,7 @@
 package Y2021.adventOfCode;
 
+import Y2021.adventOfCode.input.DataReader;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,7 +9,7 @@ import java.util.List;
 public class Day9 {
 
     public static void main(String[] args) throws Exception {
-        Heightmap map = Heightmap.build(DataReader.readInput("file:///C:/Users/Windows/Documents/WinKey/Practice/AdvantOfCode/day9.txt"));
+        Heightmap map = Heightmap.build(DataReader.readInput("/day9.txt"));
         System.out.println(" Risk Level : " + map.sumRiskLevel());
         System.out.println(" Product of three largest basic size : " + map.findBasins());
     }

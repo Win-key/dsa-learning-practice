@@ -1,5 +1,7 @@
 package Y2021.adventOfCode;
 
+import Y2021.adventOfCode.input.DataReader;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +19,7 @@ public class Day10 {
     private static Map<Character, Integer> pointsB = Map.of(')', 1, ']', 2, '}', 3, '>', 4);
 
     public static void main(String[] args) throws Exception {
-        List<String> input = DataReader.readInput("file:///C:/Users/Windows/Documents/WinKey/Practice/AdvantOfCode/day10.txt");
+        List<String> input = DataReader.readInput("/day10.txt");
         input = input.stream().filter(Predicate.not(Day10::isInvalid)).collect(Collectors.toList());
         int sum = counter.values().stream().reduce(Math::addExact).get();
         System.out.println("Part A : "+ sum);

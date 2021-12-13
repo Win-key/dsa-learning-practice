@@ -1,16 +1,16 @@
 package Y2021.adventOfCode;
 
+import Y2021.adventOfCode.input.DataReader;
+
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Day3 {
     public static void main(String[] args) throws Exception {
-        List<Integer[]> data = DataReader.readInput("file:///C:/Users/Windows/Documents/WinKey/Practice/AdvantOfCode/day3.txt")
+        List<Integer[]> data = DataReader.readInput("/day3.txt")
                 .stream()
                 .map(Day3::buildBinaryArray)
                 .collect(Collectors.toList());

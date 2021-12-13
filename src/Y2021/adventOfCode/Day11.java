@@ -1,12 +1,14 @@
 package Y2021.adventOfCode;
 
+import Y2021.adventOfCode.input.DataReader;
+
 import java.util.Arrays;
 
 public class Day11 {
     private static int flashes = 0;
 
     public static void main(String[] args) throws Exception {
-        Integer[][] mat = DataReader.readInput("file:///C:/Users/Windows/Documents/WinKey/Practice/AdvantOfCode/day11.txt")
+        Integer[][] mat = DataReader.readInput("/day11.txt")
                 .stream()
                 .map(s -> Arrays.stream(s.split("")).map(Integer::valueOf).toArray(Integer[]::new))
                 .toArray(Integer[][]::new);

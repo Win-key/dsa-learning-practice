@@ -1,5 +1,7 @@
 package Y2021.adventOfCode;
 
+import Y2021.adventOfCode.input.DataReader;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -11,7 +13,7 @@ public class Day4 {
     private static int lastWin = 0;
 
     public static void main(String[] args) throws Exception {
-        List<String> input = DataReader.readInput("file:///C:/Users/Windows/Documents/WinKey/Practice/AdvantOfCode/day4.txt");
+        List<String> input = DataReader.readInput("/day4.txt");
         Integer[] numbers = Arrays.stream(input.get(0).split(",")).map(Integer::valueOf).toArray(Integer[]::new);
         List<Integer[][]> boards = new ArrayList<>();
         List<Integer[][]> boards2 = new ArrayList<>();

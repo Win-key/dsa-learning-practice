@@ -1,5 +1,7 @@
 package Y2021.adventOfCode;
 
+import Y2021.adventOfCode.input.DataReader;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,7 +9,7 @@ public class Day2 {
 
     public static void main(String[] args) throws Exception {
         Submarine submarine = new Submarine();
-        List<Action> actionStream = DataReader.readInput("file:///C:/Users/Windows/Documents/WinKey/Practice/AdvantOfCode/day2.txt")
+        List<Action> actionStream = DataReader.readInput("/day2.txt")
                 .stream()
                 .map(Action::build)
                 .collect(Collectors.toList());
