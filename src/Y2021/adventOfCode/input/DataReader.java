@@ -9,7 +9,7 @@ public class DataReader {
     private DataReader() {}
 
     public static List<String> readInput(String urlStr) throws Exception{
-        return Files.readAllLines(Paths.get(DataReader.class.getResource("/2021"+urlStr).toURI()), StandardCharsets.UTF_8);
+        return Files.readAllLines(Paths.get(DataReader.class.getResource("/AoC/2021" +urlStr).toURI()), StandardCharsets.UTF_8);
     }
 
 
