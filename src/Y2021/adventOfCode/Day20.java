@@ -1,5 +1,6 @@
 package Y2021.adventOfCode;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -15,6 +16,8 @@ public class Day20 extends BaseClass {
     public void execute() {
         String data = input.get(0);
         int[] algo = IntStream.range(0, data.length()).map(i -> data.charAt(i) == '#' ? 1 : 0).toArray();
+
+        int[][] image = IntStream.range(2, input.size()).mapToObj(i -> IntStream.range(0, input.get(i).length()).map(c -> c == '#' ? 1 : 0).toArray()).toArray(int[][]::new);
 
         // Refactoring litLights to lights as we toggle between ON / OFF lights
         Set<Light> lights = new HashSet<>(input.size());
@@ -32,12 +35,47 @@ public class Day20 extends BaseClass {
             }
 
             lights = imageProcessing(lights, algo, i%2 == 0);
+            image = enhanceImage(image, algo, i%2 == 0);
         }
 
         print("Part B : " + lights.size());
 
         print(lights);
 
+    }
+
+    private int[][] enhanceImage(int[][] image, int[] algo, boolean toggle) {
+        int[][] enhanced = new int[image.length + 4][image[0].length + 4];
+        /*int minR = Integer.MAX_VALUE, minC = Integer.MAX_VALUE, maxR = Integer.MIN_VALUE, maxC = Integer.MIN_VALUE;
+        for (int i = 0; i < image.length; i++) {
+            for (int j = 0; j < image.length; j++) {
+                minR =
+            }
+        }*/
+        for (int[] ar : enhanced)
+            Arrays.fill(ar, toggle ? 1 : 0);
+
+        for (int i = 2; i < image.length; i++) {
+            for (int j = 2; j < image[0].length; j++) {
+                StringBuilder sb = new StringBuilder();
+                for (int k = -1; k <= 1; k++) {
+                    for (int l = -1; l <= 1; l++) {
+                        sb.append(checkAndGet(image, k-2, l-2, toggle));
+                    }
+                }
+                enhanced[i][j] = algo[Integer.parseInt(sb.toString(), 2)];
+            }
+        }
+
+
+        return enhanced;
+    }
+
+    private int checkAndGet(int[][] image, int k, int l, boolean toggle) {
+        if(k < 0 || k >= image.length || l < 0 || l >= image.length) {
+            return toggle ? 0 : 1;
+        }
+        return image[k][l];
     }
 
 
@@ -69,6 +107,7 @@ public class Day20 extends BaseClass {
         int minC = lights.stream().map(Light::getC).sorted().min(Integer::compareTo).get();
         int maxC = lights.stream().map(Light::getC).sorted().max(Integer::compareTo).get();
 
+        // All infinite lights are OFF when toggle == false
         Set<Light> updated = new HashSet<>(lights.size() * 2);
         for (int i = minR - 2; i < maxR + 2; i++) {
             for (int j = minC - 2; j < maxC + 2 ; j++) {
@@ -83,6 +122,7 @@ public class Day20 extends BaseClass {
                         }
                     }
                 }
+                // At this moment, All infinite lights are toggled to ON when toggle == false
                 if(algo[Integer.parseInt(sb.toString(), 2)] == (toggle ? 0 : 1)) {
                     updated.add(new Light(i, j));
                 }
