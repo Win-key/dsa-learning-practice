@@ -18,12 +18,12 @@ public class Day22 extends BaseClass {
         List<Integer> z = new ArrayList<>();
 
         for (Instruction ins : instructions) {
-                x.add(ins.x1);
-                x.add(ins.x2);
-                y.add(ins.y1);
-                y.add(ins.y2);
-                z.add(ins.z1);
-                z.add(ins.z2);
+            x.add(ins.x1);
+            x.add(ins.x2);
+            y.add(ins.y1);
+            y.add(ins.y2);
+            z.add(ins.z1);
+            z.add(ins.z2);
         }
         Collections.sort(x);
         Collections.sort(y);

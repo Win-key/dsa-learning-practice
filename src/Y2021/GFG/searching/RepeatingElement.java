@@ -9,7 +9,9 @@ import java.util.Set;
 public class RepeatingElement {
 
     public static void main(String[] args) {
-
+        solve1(1,2,3,4,5,3,6);
+        solve2(1,2,3,4,5,3,6,2);
+        solveWithFloydeAlgorithm(1,2,3,4,5,3,5);
     }
 
     // With O(n) time and space
@@ -36,8 +38,27 @@ public class RepeatingElement {
                 ar[a] *= -1;
             } else {
                 System.out.println("Repeating element : "+a);
+                break;
             }
         }
+    }
+
+    private static void solveWithFloydeAlgorithm(int ... ar) {
+        // fast mode
+        int fast = ar[0], slow = ar[0];
+        do {
+            slow = ar[slow];
+            fast = ar[ar[fast]];
+        } while (fast != slow);
+        // slow mode
+        fast = ar[0];
+        while(fast != slow) {
+            slow = ar[slow];
+            fast = ar[fast];
+        }
+
+        System.out.println("Repeating element : "+fast);
+
     }
 
 
