@@ -1,0 +1,155 @@
+1/17/2022
+=========
+Types of cloud
+1. Private cloud
+    Used by single organization.
+    Complete control over network
+    More security
+    eg - Rackspace
+
+2. Public cloud
+    Cloud resources owned by third parties
+    Delivered over internet
+
+3. Hybrid cloud
+    Can have both public clould and on primise
+
+Adv:
+1. On demand seft service
+2. Broad network - Can access diverse platform and services over internet
+3. Multi - tenancy and resource pooling - Multiple user can use the same infra
+4. Rapid elasticity and scalability - Automatic & Quick scale up and down on demand
+5. Measured service - You pay for what you use
+
+Six advantages of cloud computing
+1. Pay on demand
+2. Low economies - as AWS run in large scale serving multiple users
+3. Stop guessing capacity - Can get/remove resource on demand
+4. Increase speed
+5. Maintenance of servers is avoided
+6. Go global in a min
+
+Type of cloud computing
+1. Infra as a service
+    Provide the computers, networks , storage space
+2. Platform as a service
+    Taking the responsibility of managing the infra away from the organization
+3. Software as a service
+    Complete product that runs and managed by the cloud provider
+
+
+On-Premises      Iaas              Paas               Saas
+===========      ====              ====               ====
+Applications     Applications      Applications       * Applications
+Data             Data              Data               * Data
+Runtime          Runtime           * Runtime          * Runtime
+Middleware       Middleware        * Middleware       * Middleware
+O/S              O/S               * O/S              * O/S
+Virtualization   * Virtualization  * Virtualization   * Virtualization
+Server           * Server          * Server           * Server
+Storage          * Storage         * Storage          * Storage
+Networking       * Networking      * Networking       * Networking
+
+Types of Pricing
+================
+3 pricing model
+1. Pay for computation
+2. Pay for storage used
+3. Pay for outgoing data - Incoming data is free
+
+IAM
+===========================================
+
+Users and Groups
+========================================================
+Identity and Access Management
+Global service
+Root account - only for set up. should not be used for other purposes.
+Users can be created with in an account.
+Group is a collection of Users. Eg: Developers - Which may contains the users belong to development
+Users can belongs to multiple groups.
+
+** It's not best practice that users not added to a group.
+    Access should be provided via groups. Not individually.
+
+IAM - Permission
+========================================================
+Policy - A json data - That defines the access of a service and resource.
+Policy can be assigned to a group or an individual user.
+
+** Best practice: Least Privilege Access - Don't give more permission than user need.
+
+
+
+Policy Inheritance
+==========================================================
+
+      developer policy            audit policy               testing policy         individual
+        |                           |                           |                       |
+    dev group                   audit group                 OA group                    |
+________|_____  __________________|______________  ___________|____  ___________________|
+|       |    | |                                | |      |        | |
+dev 1 dev 2 dev 3                               qa 1    qa 2      qa3
+
+
+Policy structure
+===============
+version - version of the language like 2012-10-17
+id - identifier of the policy - opt
+Statement - List of object that defines the access
+
+Statement consist of
+====================
+sid - id of the statement - opt
+effect - Allow or Deny
+principle - account/user/role to which the policy need to be applied
+action - List of actions this policy allows/denies
+resource - List of resources to which these actions applied
+condition - condition on which the policy is effective
+
+
+Eg:
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ListObjectsInBucket",
+            "Effect": "Allow",
+            "Action": ["s3:ListBucket"],
+            "Resource": ["arn:aws:s3:::bucket-name"]
+        },
+        {
+            "Sid": "AllObjectActions",
+            "Effect": "Allow",
+            "Action": "s3:*Object",
+            "Resource": ["arn:aws:s3:::bucket-name/*"]
+        }
+    ]
+}
+
+
+IAM - Password Policy
+================================================================================
+Strong password
+Define rules like password should have min length of password , upper / lower letters, numbers, special chars
+Password expiration
+Prevent password reuse
+
+Go to
+    IAM -> Account Settings -> Change password policy
+
+
+IAM - MFA : Multi Factor Authentication
+================================================================================
+Advised to protect the root account with MFA, but can be done for all IAM users as well.
+Combination of password and token generated from Authorized device.
+
+How to access AWS
+=================
+* AWS Management Console - Protected by Password and MFA - provides access from computer browser
+* AWS CLI - Protected by access keys and secret keys - provides access from local computer - Requires CLI installation - Build using Aws SDK for Python
+* AWS SDK - Protected by access keys and secret keys - provides access from software application
+
+Never share the access key and secret. They are important as password, since they provide access to your aws account and resources
+
+To Start - AWS CloudShell: Region Availability

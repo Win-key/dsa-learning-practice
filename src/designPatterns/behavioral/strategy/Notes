@@ -1,0 +1,54 @@
+Basic idea of strategy design pattern is
+    composition over inheritance.
+
+Issue
+=====
+https://refactoring.guru/design-patterns/strategy
+
+                Map
+              - getRoute
+
+
+        MapForWalk      MapForTowWheeler    MapForFourWheeler
+        - getRoute{}    - getRoute{}        - getRoute{}
+
+                        MapForTowWheelerWithHighTraffic
+                            - getRoute{}
+We have dif algorithm in Map that need to have dif behaviour based on the requirement of the client
+    So have sub classes that extends Map and override the algorithms to provide the required behaviour.
+
+When MapForTowWheeler and MapForTowWheelerWithHighTraffic share the common functionalities
+    code need to copied in both the place
+    or we need to extend a common class again which will create an another level of inheritance.
+
+Over time we will have a lot extending class and code duplications in the code.
+
+Solution:
+=========
+
+Strategy design pattern recommends composition over inheritance.
+
+Which means algorithms will be extracted out from base class (here Map)
+The algorithm will created as an interface which will have multiple concrete classes (multiple behaviour classes)
+
+IRoute {           WalkRoute impl IRoute{   TowWheelerRoute impl IRoute{
+    getRoute();         getRoute() {}           getRoute() {}
+ }                  }                       }
+
+Now in the base class, we will encapsulate the Behaviour Interfaces.
+And the behaviour or the strategy which is needed will be injected during object creation. Here with Constructor Injection.
+
+    class Map {
+        IRoute route;
+
+        public Map(IRoute route) {
+            this.route = route;
+        }
+    }
+
+And to provide the injection,
+we can have a builder that get the requirements of the clients
+and get us the concrete route we need that will be injected to the map.
+
+With this at the end of the implementation we have zero inheritance.
+    (This point is we have to use minimum inheritance as possible)
