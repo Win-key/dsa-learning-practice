@@ -153,3 +153,62 @@ How to access AWS
 Never share the access key and secret. They are important as password, since they provide access to your aws account and resources
 
 To Start - AWS CloudShell: Region Availability
+
+Cloud shell
+===========
+
+Allows users to run the aws commands from the browser.
+Any files created here will stay here even after the cloud shell restart
+Can create multiple command line within the cloud shell
+
+IAM roles for AWS services
+==========================
+
+IAM roles are secure ways to grant permission to other entities that you trust.
+
+AWS services sometime need permission to talk with other services
+Like Ec2 talks with S3 to read and write files
+Do achieve that we will have roles assigned to AWS services
+
+Common roes:
+* Ec2 instance role
+* Lambda functions role
+* Roles for cloud formations
+
+How to access it -> IAM -> Roles -> Create / edit roles
+
+IAM security tools
+==================
+
+1. IAM Credential report (account level) -
+    All account's users and their status of various credentials
+
+    IAM -> Under Access reports -> Credentials report
+
+2. IAM Access Advisor (User level) -
+    Service permissions granted to the users and the last accessed date of service
+    So that we can revise the policies
+    Helps to ensure the least privilege access
+
+    IAM -> Users -> Click on a user -> Click Access advisor tab
+
+IAM Best practices
+==================
+
+* Never use root account except for setting up the account
+* One IAM user = One physical person
+* Assign users to group for permissions
+* Strong password policy
+* Enable MFA
+* Access keys and secret keys should be kept safe and not be shared with anyone.
+* Use roles for assigning permissions to AWS services
+* User credential reports and access advisor to audit the users policy to ensure the least privilege access
+
+Summary
+========
+Users : IAM user mapped to a physical person in the company
+Group : Group of users -> Permissions assigned to the groups inherited to the users of the groups
+        A user can be associated with multiple groups
+Policy : A json document that define the permission which can be assigned to the user or a group
+
+

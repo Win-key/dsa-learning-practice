@@ -9,6 +9,9 @@ public class InsertionSort {
         System.out.println(Arrays.toString(sort(1, 67, 45, 1, 2, 6, 3, 11)));
     }
 
+    // Keep left as sort array and right as unsorted array
+    // Pick the first element from the unsorted array
+    // and inserted the picked element to the correct position in the unsorted array
     private static int[] sort(int... ar) {
         for (int i = 1; i < ar.length; i++) {
             int v = ar[i];

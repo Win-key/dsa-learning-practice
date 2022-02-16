@@ -9,6 +9,7 @@ public class SelectionSort {
         System.out.println(Arrays.toString(sort(1,2,3,77,99,22,33,11)));
     }
 
+    // select an index and pick the right element for the index
     private static int[] sort(int ... ar) {
         for (int itr = 0; itr < ar.length - 1; itr++) {
             int index = itr;
