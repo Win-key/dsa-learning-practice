@@ -1,4 +1,4 @@
-package designPatterns.behavioral.strategy.problem;
+package designPatterns.behavioral.strategy_pattern.problem;
 
 public class MapForTwoWheeler extends Map {
 

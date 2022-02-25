@@ -1,4 +1,4 @@
-package designPatterns.behavioral.strategy.solution;
+package designPatterns.behavioral.strategy_pattern.solution;
 
 public class SimpleRoute implements IRoute{
     @Override

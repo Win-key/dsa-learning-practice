@@ -50,12 +50,15 @@ Server           * Server          * Server           * Server
 Storage          * Storage         * Storage          * Storage
 Networking       * Networking      * Networking       * Networking
 
+* Managed by provider
+
 Types of Pricing
 ================
+Incoming data is free
 3 pricing model
 1. Pay for computation
 2. Pay for storage used
-3. Pay for outgoing data - Incoming data is free
+3. Pay for outgoing data
 
 IAM
 ===========================================
@@ -86,7 +89,7 @@ Policy Inheritance
 
       developer policy            audit policy               testing policy         individual
         |                           |                           |                       |
-    dev group                   audit group                 OA group                    |
+    dev group                   audit group                 QA group                    |
 ________|_____  __________________|______________  ___________|____  ___________________|
 |       |    | |                                | |      |        | |
 dev 1 dev 2 dev 3                               qa 1    qa 2      qa3
@@ -115,8 +118,8 @@ Eg:
         {
             "Sid": "ListObjectsInBucket",
             "Effect": "Allow",
-            "Action": ["s3:ListBucket"],
-            "Resource": ["arn:aws:s3:::bucket-name"]
+            "Action": ["s3:*"],
+            "Resource": ["arn:aws:s3:::cdsoa*"]
         },
         {
             "Sid": "AllObjectActions",
@@ -201,7 +204,7 @@ IAM Best practices
 * Strong password policy
 * Enable MFA
 * Access keys and secret keys should be kept safe and not be shared with anyone.
-* Use roles for assigning permissions to AWS services
+* Use IAM roles for assigning permissions to AWS services
 * User credential reports and access advisor to audit the users policy to ensure the least privilege access
 
 Summary
@@ -212,3 +215,349 @@ Group : Group of users -> Permissions assigned to the groups inherited to the us
 Policy : A json document that define the permission which can be assigned to the user or a group
 
 
+===========================================================
+=======================  EC 2  ============================
+===========================================================
+
+Budget management
+=================
+Account -> My billing dashboard
+This special permission need to be provided by the root account user
+An IAM user to access this dashboard, One should log in as root user and
+in My account need to enable IAM users to access Billing dashboard
+
+To create a budget, Click on Budget tab in side nav bar.
+    Choose a budget type
+        Cost saving budget - Plan how much you want to spend on a service
+        Usage budget       - Plan how much you want to use one or more services.
+        Saving plan budget - Define a utilization threshold and receive alerts when the usage of your Savings Plans falls below that threshold.
+        Reservation budget -
+
+    These budgets help to configure the alerts when the threshold reaches.
+    And send out the email alerts to the users.
+
+EC2 Basics
+===========
+Elastic Cloud Computing - Infra as a service - IAAS
+* Renting Virtual machines  - EC2
+* Storage volumes           - EBS
+* Load distributions        - ELB
+* Auto scaling              - ASG
+
+EC2 sizing and config options
+=============================
+OS - Linux , windows and Mac
+CPU cores
+RAM
+Storage
+    Network storage - EBS(Elastic block store)
+                    - EFS (Elastic file system)
+
+    Hardware        - EC2 instance store
+Network card - speed and IP addresses
+Fire wall using security groups
+User data using bootstrap script script
+
+EC2 User data
+==============
+Lunching instance with script
+    which will install os updates , software
+    and anything that needed for setting up the computer(EC2 here)
+
+It's executed only once when instance is started at first time.
+It will run with the root user. (sudo rights)
+
+Few instance types:
+    t2.micro
+    t2.xlarge
+    c5d.4xlarge
+    r5....
+    m5...
+
+Creating AWS EC2 instances
+==========================
+1. Select an Instance
+    Amazon Machine Image - Image that used to launch the machine
+
+    Quick start - Provide AWS AMI
+    My Images   - AMIs created by us
+    Market place- AMIs created by other people
+    Community   - Created by community people
+2. Choose instance type - t2.micro, large, xlarge, ...
+3. Instance details -
+    Number of instances
+    network
+    Ip address
+    Assigning IAM roles
+    ** User data script - Can be provided as text or a file in based 64 encoded
+        https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts
+4. Add storage
+    -
+5. Tags
+6. Security group - Can create or select from existing security groups
+7. Review and launch
+8. Create key value pair
+    - Key to access the ec2 instance - Can download only once
+    - Can create a new pair or select an existing pair
+9. Launch....
+
+How to end
+    Stop - Stop for temp. Can start again.
+    Terminate - Once terminate, cannot start the same instance again.
+                Need to create a new instance.
+
+======================================================
+=================EC3 Instance class===================
+======================================================
+
+https://aws.amazon.com/ec2/instance-types/
+
+Naming conventions: -
+    m5:2xlarge
+m       - instance class - defines the class of the instance - General purpose, storage or other type
+5       - generation of the instance
+2xlarge - size in the instance class
+
+Instance classes
+================
+General Purpose : -
+                provide a balance of compute, memory and networking resources
+                Suitable for web servers and code repos
+
+Compute Optimized -
+            Used for tasks that requires high performance
+            Like batch processing
+            High performance web servers
+            High performance computing
+            Machine learnings
+
+Memory Optimized
+            Can handle huge volumn of data in memory
+            Like SQL and NO-SQL dbs requires high performance and should be capable of handing huge data in memory
+            Cache storages
+            Real time unstructured data processing
+Storage Optimized
+            Great for high intensive file read write tasks
+            Like SQL and NO-SQL dbs requires high performance and should be capable of handing huge data in memory
+            Cache storages
+            Real time unstructured data processing
+
+Accelerated Computing
+Instance Features
+Measuring Instance Performance
+
+=======================================================
+==================== Security groups ==================
+=======================================================
+
+Fire wall to the ec2 instances
+Defines the in and out bound network rules of the ec2 instances
+Only specifies what ips can be allowed.
+Can be tied with other Security groups
+Access to ports
+
+Where to create/edit SG
+=======================
+EC2 instance -> Network -> Security groups
+
+Things to know:
+===============
+* Can be attached to multiple instances
+* Locked to a region and vpc combinations
+* Security group is not part of ec2 and that lives outside of ec2
+    If the Security group blocks a request,
+    ec2 is completely unaware
+    that there is a request blocked by the security group
+* Good to have on security group for SSH
+* Time out exception - Possibly security group
+* Connection refused -
+     NO Security group issue, request reaches the ec2
+     but there is other issue within ec2 that throws connection refused.
+* All in bound requests are blocked
+* All out bound requests are authorised
+
+*** A security group can refer other security groups and allow based on the rules of referred security groups
+    Doubt:
+    ======
+     * I have 2 security groups
+        SG1 and SG2
+        1. SG1 -> IB
+            TLS -> 1122 -> SG2
+        2. SG2 -> IB
+            TLS -> 1122 -> IP range
+            --> Should I need to have the same Protocol and Port here??
+
+Importance ports to know
+========================
+
+22 - SSH - Secure shell - Log in to linux instance
+21 - FTP - File Transfer Protocol - Upload files into file system
+22 - SFTP - Secured FTP - Secured way of Uploading files into file system
+80 - http - Hyper text transfer protocol - access UNsecured websites
+443 - https - Hyper text transfer protocol Secured - access secured websites
+3389 - RDP - Remote Desktop Protocol - log into windows system
+
+How to connect to EC2 machine to do maintenance?
+===============================================
+
+                 SSH     Putty       Ec2 instance connect
+                ------------------------------------------
+Linux          | Yes   |  NA     |     Yes
+MAc            | Yes   |  NA     |     Yes
+Windows < 10   | NO    |  Yes    |     Yes
+Windows >=10   | Yes   |  Yes    |     Yes
+
+Ec2 instance connect works only for Amazon Linux 2 AMI
+
+Hands on SSH
+============
+
+Using Mac/Linux/Windows 10+
+===========================
+
+We need the public ip of the EC2 machine
+And security group that allows the user's IP over ssh protoco
+    ssh -> 22 -> 0.0.0.0/0
+And the key file (.pem)
+
+ssh ec2-user@public_ip_of_ec2_machine
+
+ec2-user is the default user name of ec2
+
+==> Should be a Permission denied response
+Though SSH configured to allow all IP,
+   it requires the EC2 key pair file (.pem) to authorize the user.
+
+ssh -i ec2_key_pair.pem ec2-user@public_ip_of_ec2_machine
+    (ec2_key_pair.pem file should be placed in the directory)
+
+If the key file is unprotected with chmod 0644 command,
+    then there should be another Permission Denied response
+
+To fix this, run
+    chmod 0644 ec2_key_pair.pem
+
+Should be good to go now........
+
+To exit, run exit or ctrl + C
+
+How to ssh into EC2 from Window using Putty
+============================================
+https://www.youtube.com/watch?v=jv-dgOfFN4o
+
+Ec2 Instance connect
+====================
+Connect over browser.
+This also requires SSH - 22 to be configured in SG
+
+EC2 IAM roles
+=============
+When we need to have access to IAM role,
+    we have to assign a IAM role to the EC2 instance.
+
+We have already seen how to create an IAM role.
+To assign it to an instance.
+EC2
+    -> Select an instance
+        -> Actions
+            -> Security
+                -> Modify IAM role
+                    -> Now already created IAM roles should be shown now.
+                        Select the role needed
+                        -> Save. Now permissions assigned to IAM role should be available for EC2 too.
+
+EC2 Instance Launch types
+=========================
+
+1. On Demand
+=============
+* Pay for what you use
+* Billing per second, after first minute (free)
+* High cost, but No upfront payment (advance amount)
+* Can terminate at any time
+
+Best for short time and uninterrupted workloads
+
+Reserved instances
+==================
+* Up to 75% discount compared to On demand
+* Reservation can be 1 year or 3 year
+* Purchase options
+    - No upfront advance
+    - Partial upfront advance + discount
+    - Full payment ++ discount
+* Can reserve a specific instance type
+* Recommended for steady state instance - database
+
+Other Variants of Reserved instances
+===================================
+Convertible Reserved instances
+==============================
+* Allows to convert the instances type
+* Up to 54% discount (Lesser discount than the normal reserved instances)
+Scheduled Reserved Instances
+============================
+* When having daily jobs that runs once in a day/month/year likewise
+* Reserve for the time window
+* Can reserve for 1 to 3 years
+* Currently deprecated. We cannot buy now.
+
+Spot instances
+==============
+* Can get 90% discount compared to on demand
+* Can lose the instance at any point of time when the MAX threshold is reached
+* Most cost efficient AWS instance type
+* Should be used for recoverable use cases - Batch job that can be rerun, Image processing, distributed workloads(LB)
+* Never use for critical tasks - DB, web server
+
+Dedicated Host
+==============
+* Physical server with Ec2 instances which are fully dedicated our use
+* Can address Compilence requirement
+* Only allocated for 3 years reservation
+ * Most expensive
+* Since the physical hardware are dedicated to us, we can make use of the server inbound software licenses,
+    Which will reduce our licensing costs.
+        Eg: Windows license, SQL server license and other server licenses that are tied to vm, cpu and physical cores..
+* This enable us to bring-your-own-license (BYOL). Used for complex licensing model.
+* Provide more control of the underlying hardware like visibility of sockets, vms,cores, host ip.
+    Targeted instance placement
+https://aws.amazon.com/ec2/dedicated-hosts/
+https://aws.amazon.com/about-aws/whats-new/2015/11/now-available-amazon-ec2-dedicated-hosts-and-the-ability-to-use-existing-server-bound-licenses/
+
+Dedicated Instances
+===================
+* Instances running on hardware that is dedicated for us
+* Instances can share the hardware within the same account.
+    But not with other.
+* Automatic instance placement only. No target placement
+    Means first time intance could be placed on HW1, next time it could be HW@
+
+Comparing Dedicated Host and Dedicated Instances
+================================================
+https://aws.amazon.com/ec2/dedicated-hosts/#:~:text=An%20important%20difference%20between%20a,same%20physical%20server%20over%20time.
+
+Shared Responsibility between AWS and User on EC2
+=================================================
+            AWS                             User
+* Infra network security                 * Security group rules
+* Isolation of Physical host             * OS & software patches and updates
+* Faulty HW replacement                  * IAM roles and IAM user access managements
+* Compliance                             * Data security on EC2
+
+Ec2 Instance Store
+==================
+
+Elastic Block Store
+===================
+
+* It's a network drive attached to the EC2 instance while they run.
+    - Since they are attached over network. Network Latency will be there.
+    - They can be unmounted from a machine and mounted to another machine.
+* It allows to persist the data, even after the EC2 termination
+* It's bounded to the availability zone.
+    - To move the volume, you need to snapshot.
+* At a time, it can be attached to the one instance alone.(At CCP level)
+* Configured capacity will be provided.(GB and IOPS)
+    - Billed for what capacity and IOPS
+    - Can change the capacity over time if needed.

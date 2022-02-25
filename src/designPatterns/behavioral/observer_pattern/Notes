@@ -1,0 +1,65 @@
+Observer design pattern
+=======================
+
+Let's consider weather system environment.
+The weather system collects the weather data like
+    * Temperature
+    * Humidity
+    * Rainfall
+    etc....
+
+And now we have a website, where we need to show the latest updated data.
+It could be single website or multiple. Or even multiple devices.
+
+Problem
+========
+So, The weather system is producing the data and it needs to be updated in the website
+whenever there is a change in the weather data.
+
+Let's consider we have a polling mechanism
+    The client calls the weather system every 10 mins to know if there is change in data
+And the Weather system replies with true/false as response.
+    The worst case is that there is only a few updates in a day,
+but polling will happen 60/10 * 24 times. Most of them will get false as the response.
+
+    That will go insane when multiple clients starts to poll.
+Possibly it leads to higher infra cost and performance degradation as well.
+
+What can be better?
+===================
+Observer design pattern helps to overcome the issue.
+
+* This design pattern prefers push and pull over poll and pull
+Whenever there is a change in data, weather system notify it's subscribers
+    and then subscriber pull the data from weather system.
+
+This relationship can be said as
+    * Producer Consumer
+    * Provider - Subscriber
+    * Observable - Observer
+    ....
+
+We will have two interfaces
+
+1. IObservable
+interface IObservable{
+    void add(IObserver);
+    void remove(IObserver);
+    void notify();
+}
+
+
+2. IObserver
+interface IObserver {
+    void update();
+}
+
+
+The IObserver subscribe to IObservable using add method.
+The Concrete Observable maintains list of IObservers and notify them when there is an update.
+
+The Concrete Observer will hold the reference to the Observable.
+The Concrete Observer receive the notification
+    and look for the updated values from Observable ref which is encapsulated in Observer.
+
+Let's understand with implementations.

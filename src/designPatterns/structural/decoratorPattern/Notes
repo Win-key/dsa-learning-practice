@@ -1,0 +1,56 @@
+    Decorator design pattern lets you add new behaviour to the object at runtime
+by placing the object into a wrapper object or wrapper into another wrapper and so on.
+
+    Since it modifies the object structures like placing the object into wrapper, this pattern comes under
+Structural design pattern.
+
+Problem
+=======
+
+    Let's consider that we have a requirement to send the notifications to the user
+whenever there is an update to ....
+
+    Initially, you decide the have a notifier objects for mail and, slack..
+
+    Everything goes smoothly and the functionality makes a HIT. Clients are happy. Now they want to have
+few more notification like Phone call, SMS, and few more.
+    Along with a way to choose more than one way to notify depends on the users' need.
+
+    1. The very first thing that pop into our mind is inheritance.
+
+        But if we try to create a sub class for every combination of notifiers, we will end up having a
+        CLASS EXPLOSION...
+
+        So inheritance is not a solution to this scenario.
+
+    2. Adding the behaviour as property
+
+        If we add notifications with multiple properties for slack, mail, sms , phone call, fb or insta,..
+            We will end having lot of property in the class.
+            Also, whenever there is a requirement to add a new notifies, we have to modify this class
+        That's will make code not maintainable at long run.
+
+
+Solution
+========
+    The decorator pattern will be perfect for this use case.
+    Decorator is a structural design pattern that
+     lets you attach new behaviors to objects by placing these objects inside special wrapper objects that contain the behaviors.
+
+    Typically, decorator pattern has a concrete class and behaviour to the concrete object will be added by the decorator.
+
+    We have a notifier abstract class that stays at the top.
+    And we have class extending it SimpleNotifier which shows a plus icon within the application user work.
+    The behaviour class will be call as decorator which IS A (inheritance) notifier and also has a notifier.
+
+    Eg:
+    abstraction :   interface InputStream
+    concrete    :   class FileInputStream
+
+    decorator   :   BufferedInputStream(InputSteam is)
+                    LineNumberInputStream(InputSteam is)
+
+    Find the implementation of Notifier example in our code.
+    REF:
+        https://www.youtube.com/watch?v=GCraGHx6gso
+        https://refactoring.guru/design-patterns/decorator
