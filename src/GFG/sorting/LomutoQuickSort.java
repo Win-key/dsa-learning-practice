@@ -9,6 +9,11 @@ public class LomutoQuickSort {
         System.out.println(Arrays.toString(ar));
         sort(ar);
         System.out.println(Arrays.toString(ar));
+
+        ar = new int[] {1, 11,9 ,1 ,8 ,10, 12, 14, 1, 20};
+        System.out.println(Arrays.toString(ar));
+        sort(ar);
+        System.out.println(Arrays.toString(ar));
     }
 
     public static void sort(int[] ar) {
@@ -26,7 +31,7 @@ public class LomutoQuickSort {
     private static int partition(int[] ar, int l, int h) {
         int pivot = ar[h], cur = l - 1;
         for(int i = l; i <= h; i++) {
-            if(ar[i] <= pivot || h == i) {
+            if(ar[i] <= pivot) {
                 swap(ar, ++cur, i);
             }
         }

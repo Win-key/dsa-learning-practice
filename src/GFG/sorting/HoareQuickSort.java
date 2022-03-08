@@ -27,6 +27,12 @@ public class HoareQuickSort {
         sort(ar, pivot + 1, h);
     }
 
+
+    // Hoare's partition in some cases makes the quick sort algorithm go into infinite loop
+    // For eg:
+    //  1 - 2 p = ar[1]
+    //  [1, 2] this will always return 1 as the pivot and makes put the call to infinite recursion
+    //
     private static int partition(int[] ar, int l, int h) {
         int pivot = ar[l], i = l - 1, j = h + 1;
         while (true) {

@@ -375,6 +375,7 @@ Things to know:
      but there is other issue within ec2 that throws connection refused.
 * All in bound requests are blocked
 * All out bound requests are authorised
+* You can apply multiple security groups to a single EC2 instance or apply a single security group to multiple EC2 instances
 
 *** A security group can refer other security groups and allow based on the rules of referred security groups
     Doubt:
@@ -466,6 +467,11 @@ EC2
                         Select the role needed
                         -> Save. Now permissions assigned to IAM role should be available for EC2 too.
 
+How to connect to windows instance over RDP
+===========================================
+
+https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html
+
 EC2 Instance Launch types
 =========================
 
@@ -547,6 +553,13 @@ Shared Responsibility between AWS and User on EC2
 
 Ec2 Instance Store
 ==================
+* Storage HW device witnin the host machine.
+* Provides low latency and high throughput
+* Selecting Instance store or EBS is based on instance type.
+* it offers temporary storage. In case of any Instance Failure, you will lose your data.
+* Can be attached only during the start
+* There is no stop for Instance store EC2. Only termination
+* After you launch an instance, you must ensure that the instance store volumes for your instance are formatted and mounted before you can use them.
 
 Elastic Block Store
 ===================
@@ -556,8 +569,104 @@ Elastic Block Store
     - They can be unmounted from a machine and mounted to another machine.
 * It allows to persist the data, even after the EC2 termination
 * It's bounded to the availability zone.
+    - cannot mount a EBS from az1 to az2's ec2
     - To move the volume, you need to snapshot.
 * At a time, it can be attached to the one instance alone.(At CCP level)
 * Configured capacity will be provided.(GB and IOPS)
-    - Billed for what capacity and IOPS
+    - Billed what capacity and IOPS
     - Can change the capacity over time if needed.
+* Multiple EBS volumes can be attached to a ec2 instance
+* EBS volume and ec2 has to be in same az.
+* For Failure recovery, EBS volume is auto replicate within the az.
+
+Delete on termination policy
+============================
+There is a property in the create EC2 instance -> configure storage named "Delete on Termination"
+This property allows the user to decide whether to delete the storage on instance termination
+* Root volume
+    - If it's instance store, volume will be delete on termination (NA)
+    - If it's EBS volume, by default it will be delete on termination
+        But can be opted not to delete on termination
+* Non root storage
+    - EBS volumes, By default not to delete on termination. but can be changed
+    - Instance store also can be used as non root volume.
+
+
+Good read for root volume to understand difference between EBS backed instance and Instance store backed instance
+https://faun.pub/aws-understanding-root-device-volume-76df89d18ec4
+
+EBS Multi-Attach
+================
+* io1 and io2 volume types can be attached to multiple instances
+    For ccp they are out scoped.
+
+EBS Snapshots
+=============
+* Back up of EBS volume at a point of time
+* It's recommended to take the snapshot after detaching it from ec2, but not necessary.
+* The state of EBS volume is persisted in snapshot and so can be used to create/recreate another ec2 from snapshot
+* This snapshot can be copied to other AZ/Region and can be used for creating EC2 there.
+
+Step to create snapshot
+Select EBS volume
+    -> Action -> create snapshot -> Add description
+        -> Create snapshot
+
+This created snapshot can be found in
+    EBS service -> Snapshot in the left side nav bar
+
+Copy snapshot
+============
+Select snapshot -> action -> copy
+    -> select region
+    -> copy
+
+Create volume
+=============
+Select snapshot -> action -> Create volume
+    -> Value are Pre populated with origin volume
+    -> can change az here
+    -> Create volume
+
+Now this new volume can be attached to another az's EC2 instance.
+
+AMI overview
+=============
+* Amazon Machine Image
+* Customization of Ec2 instance
+    - Can add our OS, software, configs, monitoring tools
+    - Faster boot - As the software, configurations are pre-packaged.
+* Build for specific region, can be copied to other region
+* Options
+    - Public AMI  - AWS provided
+    - Own AMIs    - We make and maintain
+    - MarketPlace - Someone else build and sell
+    - Community   - Build by a community of people.
+* Your AMI is stored as an EBS snapshot in the same region as the instance.
+  You will pay for the cost of that EBS storage.
+
+Types of AMIs
+=============
+Amazon EBS-backed AMI – The root device for an instance launched from the AMI is an Amazon Elastic Block Store (Amazon EBS) volume created from an Amazon EBS snapshot.
+Amazon instance store-backed AMI – The root device for an instance launched from the AMI is an instance store volume created from a template stored in Amazon S3.
+
+Create an AMI
+=============
+1. Need to start a EC2 first
+    In User data script, add the bash script to install the softwares we need.
+2. Can create AMI from either running instance or stopped instance
+3. Right click on EC2 instance from where we want to create image.
+4. Image name and create.
+    - this will take a snapshot of ebs root volume
+    - it will take a little bit of time to create a image.
+
+Start an EC2 with My AMIs
+=========================
+1. Create Instance
+2. My AMIs
+3. Do regular steps
+    - User data script only for business. Like running tomcat.
+    - Because other things are taken care by base AMI that we have created.
+4. Launch instance.
+    - There should a faster boot up time as the software and configurations are pre-packed by the base AMI
+
