@@ -670,3 +670,566 @@ Start an EC2 with My AMIs
 4. Launch instance.
     - There should a faster boot up time as the software and configurations are pre-packed by the base AMI
 
+EC2 Image builder
+=================
+Problem:
+* Keeping Virtual Machine and container images up-to-date can be time consuming, resource intensive, and error-prone.
+Currently, customers either manually update and snapshot VMs or have teams that build automation scripts to maintain images.
+
+Solution:
+* Ec2 image builder used to automate the building, testing and deployments of VM and container images.
+* This is not for AWS EC2, also for on premise instances connected to aws.
+* Can run on schedule (Weekly, monthly or on software updates)
+* Free of cost - But need to pay for underlying resources
+    - EC2s created during the Image building process
+    - EBS/S3 volume cost for AMIs/images
+
+How it works
+============
+Image builder
+    -> Create EC2 instance based on configuration
+        -> Create AMIs out of it.
+            -> Test AMIs
+                -> Distribute (Can be copied to multiple region for usage)
+
+Configuring an Image Builder
+============================
+Image builder service
+1. Create image builder pipeline
+    - Build schedule Week/Day or CRON or Manual
+        - Run by schedule/ Run when there is an update
+2. Choose Recipe
+    - New Recipe/ Existing one
+    Image type
+        - Output - AMI or Docker Image
+    - Name and version
+    - Source Image
+        - Aws managed / Custom AMI
+        - OS
+        - Image origin - AWS/OwnByMe/SharedWithME
+        - Select image ARN
+        - OS Version options
+    - root dir
+    - Components
+        - Software which we want to package in the AMI
+        - Like aws cli, Java,..
+        - Order of components installation
+    - Test components
+        - Test components are being configured to test the image after the build.
+3. Infra configuration
+    - To build the image using Image builder, the EC2 going to be used by image builder
+        need to have few important permission that can be given via IAM roles
+        * EC2InstanceProfileForImageBuilder
+        * EC2InstanceProfileForImageBuilderECRContainerBuilds
+        * AmazonSSMManagedInstanceCore
+    - Choose the IAM role that has the above permissions. Or create one.
+    - EC2 type
+    - VPC subnet
+4. Distribution settings
+    - Configure Regions to distribute the output image to other region.
+
+To run manually,
+    - Our new Pipeline
+        -> Actions
+            -> Run pipeline
+
+While image builder is building,
+    we can see one EC2 machine started and which is used for image building.
+    Once image is built, another ec2 machine used for testing the image.
+        After building and testing EC2 machines will be terminated.
+    And then image is distributed over configured regions.
+    Now this new AMI should be available in AMIs/MyAMIs sections.
+        (Image builder registers the new AMI ans it's available for us to use.)
+
+EC2 instance store
+==================
+    - High performance hardware disk attached to the EC2 instance.
+    - Provide great performance over EBS (which is attached through network and so have latency)
+    - EC2 instance store (ephemeral) lose their data when stopped.
+    - Good for buffer, temp data, cache.
+    - Risk of data loss.
+    - Backup and replication are our responsibility.
+
+Elastic File System - EFS
+=========================
+    - Managed NFS(Network File System) that can be connected to 100s of EC2s at a time.
+    - Works with Linux instance only
+    - Can be used with Multiple ec2 across multiple AZs
+    - high availability and durability
+    - High cost - Pay for what you use
+    - No capacity planning and scale up/down when required.
+    - NFSv4. 1 protocol,which allows you to mount it like any other file system.
+EBS vs EFS
+==========
+Regions and AZs
+    EBS -
+        specific to Regions and AZs.
+        Means EBS volume attached to EC2 instance in one az cannot be (removed and)attached to another az's ec2.
+        If needed , create a snapshot of EBS and copy to another az and attach to EC2.
+        But that's gonna create another EBS volume.
+        Replication is done within AZ
+    EFS -
+        One EFS can be mounted to multiple EC2 instances across AZs and regions.
+        If one EC2 adds a file in the EFS, all other EC2s will able to see it.
+        Not specific to region/az
+        Replication is done across regions/AZs
+
+EFS IA (EFS Infrequent Access)
+==============================
+* For files that are rarely accessed can be moved to EFS IA.
+* Provides 90% cost optimization w.r.t. EFS standard.
+* To enable, Create a lifecycle policy and attched it to the EFS.
+    Based on the policy files will be moved to EFS IA by their last access time.
+* When files in EFS IA accessed, they will be moved to EFS standard.
+* EC2 doesn't know about any of these. For EC2, EFS or EFS IA both look the same.
+    It's aws who does cost optimization work behind the screen.
+
+Shared Responsibility model of EC2 storage
+==========================================
+
+AWS
+====
+* Infra
+* Replication of EBS and EFS volumes
+* Replace HW failure
+* Data privacy
+
+Our
+===
+* Backup and snapshot procedure.
+* Data encryption
+* Responsibility of Data on the drive.
+* Risk of EC2 instance store
+
+Amazon FSx
+==========
+* 3rd part file system
+* Fully managed.
+* Cost optimized and high available file system
+
+1. FSx for windows server
+2. FSx for lustre
+3. FSx for netapp ONTAP
+
+FSx for windows server
+======================
+* Windows native share file system
+* Fully managed and high reliable
+* Build on Windows file server
+* Supports SMB and windows NTFS protocols
+* Integrated with MS active directory
+* Can be accessed from AWS or on premiss both possible.
+Storage:
+* It works with windows file server.
+
+FSx for lustre
+===============
+* High performance computing linux file system
+* Lustre - Linux and Cluster
+* High workloads like machine learning, analytics, video processing, Financial modeling...
+* Scales upto 100s of gb, millions of iops, sub-millies of latency
+Storage:
+* stores the data in S3 and can be accessed by on-premiss and ec2 instance
+* Amazon Linux, Amazon Linux 2, Red Hat Enterprise Linux (RHEL), CentOS, SUSE Linux and Ubuntu.
+
+ASG(Auto Scaling Group) and ELB (Elastic Load Balancer)
+==========================================================
+High Availability
+    If there is any failure in one instance, the other instance should be taking care of the requests.
+Scaling (Elasticity)
+    When there is a hike in load, the backend systems should be capable of handling it.
+    Vertical and Horizontal scaling
+Agility
+    Go global with Simple UI clicks.
+
+Vertical
+    - Increasing size capacity of the instance.
+    - High availability cannot be done with Vertical scaling
+Horizontal
+    - Increasing the number of instances serving the requests.
+    - High availability achieved.
+
+ELB (Elastic Load Balancer)
+===========================
+* Load balancer
+    -> security group to expose to outer world
+    -> Select/ Create the target group.
+        -> Name
+        -> target group is List of EC2 instances.
+        Todo : Check if this region specific?
+            Is target group specific to region?
+
+Type of LBs
+* ALB
+    - Suitable for optimal load for web servers
+    - Http/Https2
+* NLB
+    - Ultra high performance
+    - Support for TCP/UDP
+* Gateway Load Balancer
+    -
+* Classical
+    - Not used anymore.
+
+Auto Scaling Group
+===================
+    - Only horizontal scaling can be done in auto scaling group.
+    - When there is a need for more/less instances ASG detect it (based on the information it get from LB) and scale up/down
+    - ASG can be enabled or disabled.
+    - Min and max can be selected.
+
+Strategies
+==========
+    - Manual
+        -
+    - Dynamic
+        - Simple step - When reaching Upper/Lower trigger of CPU usage, increase/decrease number of instances
+        - Target tracking - Always maintains the configured CPU usage
+        - Schedule  -
+    - Predictive scaling
+        - Using ML algorithm scale up/down.
+
+
+S3 (Simple storage service)
+===========================
+* Main building block of AWS
+* Infinitely scalable.
+* Backbone of Websites (js stored in S3 serves as Frontend through cloud front)
+* Many AWS services use S3 as integration
+    - EBS snapshots are stored in S3, but will not be visible. We will pay for EBS snapshot stored in S3.
+
+Use cases
+========
+* Backup and storage
+* Disaster recovery
+* Archive
+* Hybrid cloud storage
+* Application hosting
+* Media hosting
+* Data lakes and big data analytics
+* Software delivery
+* Static website
+
+Buckets
+=======
+* S3 can store objects(files) in buckets(dir)
+* Bucket should be having unique name globally (across all region and all accounts)
+* But buckets are defined in the region level.
+* Naming conventions
+    - No upper case
+    - No underscore
+    - 3 to 63 length
+    - Not an IP
+    - Must start with lower letter or number
+* Each file store will have a key
+    s3://bucket_name/file.txt
+* There is no concept of directories/folders in S3
+    s3://bucket_name/parent_folder/child_folder/file.txt
+    Here, parent_folder/child_folder/ is just a prefix.
+        S3 UI will make it look like a folder structure, but it's not.
+* Each AWS account can create 100 buckets, though more are available by requesting a service limit increase.
+
+Objects
+========
+Max size - 5TB (5k GB)
+For uploads mores than 5GB, use multipart uploads
+* Meta data - list of key value pair - System or user meta data
+* Tags - Unique key value pair used for security/life cycle
+* Version id (if versioning is enabled)
+
+S3 security
+===========
+User based : IAM policies - which api calls should be allowed for a specific user
+Resource based :
+    Bucket policy : Bucket wide rules from the s3 console - allows cross account
+    Object Access Control List : fine grains
+    Bucket Access Control List : less common
+
+An IAM principle can access the resource,
+    If IAM permission allows
+    ****** OR *******
+    If IAM bucket policy allows
+    ****** AND *******
+    There is no explicit deny
+
+Encryption:
+    Encrypt objects in S3 using encryption keys (and make sure you can decrypt too)
+
+Bucket Policy ** for exam
+=============
+* Allow the bucket to public : attach a bucket policy that provide public access
+        So that anyone from the world can access the s3 object in the bucket.
+* Allow the IAM user from same account of S3 : Provide IAM permission to access the S3, to restrict to bucket, Use IAM Policy
+* Allow EC2 to use S3 : Attach IAM roles
+* Allow the IAM user from outside account of S3 : Attach a bucket policy to allow the other account/users to access the bucket
+
+Policy structure
+================
+* Json based policy
+* Similar to IAM policy
+{
+    "version" : "2012-10-17",
+    "Statements" : [
+        {
+            "Sid" : "PublicRead",
+            "Effect" : "Allow",
+            "Principle" : "*",
+            "Action" : [
+                "s3:GetObject"
+            ],
+            "Resource" : [
+                "arn:aws:s3:::my-bucket/*"
+            ]
+        }
+    ]
+}
+
+Resource - Buckets and objects
+Action - List of APIs allowed
+Effect - Allow or Deny
+Principle - Account / User for which the policy is applied
+
+Bucket Policies can used for
+* Providing the public access
+* Force the object encryption at upload
+* Grant access to other account user to access the S3 Bucket and Objects
+
+Access block settings
+=====================
+Block all public access
+
+* If out bucket will never be exposed to public
+    then all access setting can be ON
+* If out bucket will be exposed to public
+    then all access setting should be disabled
+    And then only bucket policies can be applied.
+
+* these are created for preventing data leake
+* This settings can be set at account level.
+    * If it's turned on at account level,
+        all buckets in the account will have S3 access block settings turned on.
+
+Create bucket policy
+====================
+Write manually using docs
+    OR
+Create using policy generator
+=============================
+Select type of policy (S3 bucket policy)
+    -> Actions - Permissions
+    -> Effect - allow/deny
+    -> Resource - arn:aws:s3:::bucket-name/*
+    -> Generate -> Will give a Policy JSON
+
+S3 website
+=====================
+* S3 can host static websites and have them accessible on the www.
+* The website URL will be :
+    <bucket-name>.s3-website.<AWS region>.amazonaws.com
+                                OR
+                            -<AWS region>
+* If you get a 403 Forbidden, make sure bucket policy allows public access.
+
+How to set up the S3 website?
+=============================
+Go to S3 bucket
+    -> Properties
+        -> Look for static we hosting
+            -> Edit it and enable static web hosting
+                -> Provide index file name -> The file which will be served when there is a request.
+                -> Optional - Provide error file name
+                -> Optional - Provide redirection rules
+            -> Save
+Now the static website should be accessible.
+URL will be like mentioned above,
+ Also can be found in the Static web hosting section
+
+S3 Versioning
+=============
+* Version the files whenever there is a change
+* Enabled at the bucket level.
+* Majorly used for web hosting static files, but can be applied to any object in s3.
+* Benefits of using Versioning
+    - Protect against unintended deletes
+    - Easy roll back to previous version
+* Any files that exist before versioning will have version as "NULL"
+* Suspending versioning does not delete the previous versions.
+
+How to enable versioning
+* Bucket properties
+    -> Enable versioning
+* Whenever there is a upload a new version will be created.
+* On clicking the List all version radio button
+    We can see files and it's versions
+* When deleting a specific version, it will be permanently deleted.
+* When we delete a file at high level,
+    a delete marker will attached to the file.
+
+S3 server access logging
+========================
+* For audit purpose we want to log all access to s3 buckets.
+* Any request made to s3 from any account that
+    are authorized or denied will be logged into another logging bucket.
+* These data can be analyzed using data analytics tools.
+* Use cases:
+    - For debugging
+    - Audit
+    - view suspicious pattern
+    Majorly for security purposes
+
+How to enable it?
+Bucket Properties
+    -> Server Access Logging
+    -> Enable
+        -> Configure the logging bucket where access logs will be stored.
+* If you enable logging on multiple source buckets that identify the same target bucket,
+    the target bucket will have access logs for all those source buckets.
+* However, each log object reports access log records for a specific source bucket.
+
+https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html
+
+S3 Replication
+==============
+* When enabling the S3 Replication, files in the source bucket will be copied to target
+* Must enable versioning - both source and target
+* Types - * CRR - Cross Region Replication
+          * SRR - Same Region Replication
+* Buckets can be from different account.
+    - The target needs to be attached with bucket policy that allows the source bucket owner account.
+* Copying is async.
+* Can attach a single source to multiple target buckets.
+
+CRR - Used for compliance, low latency access, replication across accounts.
+SRR - User for log aggregation, live replication between prod and test accounts
+
+How to enable Replication?
+* Before create a target bucket and enable versioning
+* Enable versioning in the source bucket.
+* Properties
+    -> Replication
+        -> Enable replication
+        -> Configure destination bucket (can be from other account as well)
+    -> Create.
+* Files exist before the replication enabled will not be replicated.
+    Only files after the replication will be enabled.
+
+S3 Storage Classes
+===================
+* Standard
+* Standard - infrequent access
+* One zne - infrequent access
+* Glacier Instant Retrieval
+* Glacier Flexible Retrieval
+* Glacier Deep archive
+* Intelligent Tiering
+
+When creating an object in s3,
+    we can choose it's storage class
+    and can modify manually after create.
+Can use storage life cycle configuration to move the objects from one class to other
+
+S3 Durability
+=============
+* Highly durable
+* same for all storage classes
+
+S3 Availability
+===============
+* How readily available to use.
+* Varies depending upon the storage class
+* Eg: S3 standard has 99.99% availability = not available 53mins a year
+
+S3 Standard - general purpose
+=============================
+* 99.99% available
+* Used for frequent access
+* Low latency and high throughput.
+* Sustain 2 concurrent aws facility failure.
+* No retrieval changes
+* Use cases:
+    - Big data analytics
+    - mobile and gaming purposes
+    - CDN
+
+S3 standard IA - Infrequently Accessed
+======================================
+* For data that is less frequently accessed but requires rapid access when needed.
+* Lower cost than S3 standard.
+* 99.99% available
+* use case: Disaster recovery and backup
+
+S3 One Zone - Infrequently Accessed
+======================================
+* Highly durable 99.999999%
+* Data is lost when az is destroyed.
+* 99.5% available
+* Use case: Secondary backup - Used for data that can be created again.
+
+GLACIER STORAGE CLASSES
+========================
+* Low cost object storage - used for archival and backup.
+* Pricing : price for storage + cost of retrieval
+Three classes
+S3 Glacier Instant Retrieval
+    - lowest cost storage, up to 68% lower cost (than S3 Standard-Infrequent Access),
+    - Used for long lived data that is accessed only a quarter and requires milli seconds retrieval.
+    - High durable, high available and low latency
+    - Lower cost for per gb storage and higher cost for per gb retrieval.
+    - data is stored across multiple physically separated AWS Availability Zones in a given year.
+    - Min storage duration 90 days
+
+S3 Glacier Flexible Retrieval
+    - Low cost than 10% lower of Instant retrieval
+    - Used for object retrieved 1-2 times a year.
+    - Async retrieval
+    - Has 3 flexibility
+        - Expedited- 1 - 5 mins
+        - Standard - 3 to 5 hours
+        - Bulk - 5 to 12 hours - Free retrieval
+        - Min 90 days storage duration
+S3 Glacier Deep archival
+    - Standard 12 hours and bulk 48 hours
+    - Min storage duration is 180 days.
+    -  up to 75% lower cost (than S3 Glacier
+https://aws.amazon.com/s3/storage-classes/glacier/
+
+S3 Intelligent tiering
+========================
+* Small monthly monitoring and auto tiering fee.
+* Moves objects automatically to Access tiers based on the usage.
+* No retrieval changes
+
+Access tier types
+    - Frequent Access Tier (auto): default
+    - Infrequent Access Tier (auto): Objects not accessed for 30 days.
+    - Archive Instant Access Tier (auto): Objects not accessed for 90 days.
+    - Archive Access Tier (auto): configurable from 90 days to 700+ days.
+    - Deep Archive Access Tier (auto): configurable from 180 days to 700+ days.
+
+LifeCycle Configuration
+=======================
+* Can be applied to entire bucket or specific objects using filters
+
+Options:
+========
+* Transition current versions of objects between storage classes
+    - Storage transition and days after object creation
+
+* Transition previous versions of objects between storage classes
+    - Storage transition and days after object creation
+
+* Expire current versions of objects
+    - days after object creation
+
+* Permanently delete previous versions of objects
+    - days after object creation
+
+* Delete expired delete markers or incomplete multipart uploads
+    - days after object creation
+
+S3 Object Lock & Glacier Vault lock
+===================================
+S3 Object Lock
+* WORM model (Write once Read Many)
+* Block the object for specific amount of time.
+

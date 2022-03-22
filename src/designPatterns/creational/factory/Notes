@@ -1,0 +1,35 @@
+Factory design pattern
+======================
+Simple factory, Factory pattern, Abstract Factory pattern
+* Simple factory
+    - This is not a design pattern
+    - A simple class take care of the creation of the objects
+
+Factory pattern
+===============
+* When the object creation has more complex logic
+    and based on the logic diff types of objects (concrete impl of interface) will be created
+* Where we need polymorphism for creation logic.
+    Like Few places are using one type logics to create the objects
+        other places are using another type of logic to create the objects.
+    In such case, we can use an interface that declares the creationMenthod
+        and a few concrete classes that defines the creationMethod for the two scenarios
+
+For example:
+===========
+You are developing a game where you go into a jungle and see various animal and you have to escape from them
+   Just think about see various animal.
+    - In lower level you see the animal coming in a pattern.
+        which means you first see the snake -> wolf -> Bull -> Monkey
+            and then again snake -> ...
+        It goes in a loops. This is the pattern of animal coming.
+    - In another level, there is no pattern, animal started coming randomly.
+
+                        CreateAnimal
+                         - createAnimal()
+                _______________|_____________
+                |                            |
+        BalancedAnimalFactory           RandomAnimalFactory
+         - state : int
+         - createAnimal(){...}              - createAnimal(){...}
+

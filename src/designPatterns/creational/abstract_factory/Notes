@@ -1,0 +1,22 @@
+Abstract factory pattern
+========================
+* One of the creational design pattern.
+* Abstract factory patterns used for creating a family or dependent objects
+    without specifying their concrete class.
+* Use when need to create families of object and we don't want to depends on concrete class of the products
+    - they can be either unknown at the time of coding.
+    - Or we want to extract the creation logic for future extendability.
+
+How is it work?
+==============
+* This factory interface has factoryMethods declarations for all of the products in the family.
+* The objects created from this factory will always be compatible each other (belongs to same family).
+    - So we don't have to worry about the product compatibility with the other product we have already.
+
+How to implement?
+================
+* Identify the set of products and create interfaces
+    - Create concrete classes of the products.
+* Identify the variants/families of the products
+    - Create concrete factory classes for the product factories.
+    - Impl methods and each methods should return the product from the intended family.

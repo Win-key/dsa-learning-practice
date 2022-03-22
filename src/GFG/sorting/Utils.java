@@ -19,5 +19,24 @@ public class Utils {
         System.out.println(o);
     }
 
+    public static class Interval {
+        int x;
+        int y;
+
+        private Interval(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() { return x; }
+
+        @Override
+        public String toString() {
+            return "{ x : " + x +", y : " + y +'}';
+        }
+        static Interval of(int x, int y) {
+            return new Interval(x, y);
+        }
+    }
 
 }
