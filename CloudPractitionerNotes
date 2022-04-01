@@ -3468,5 +3468,196 @@ Original HD Videos  ---> transcoding pipeline   -> output s3 bkt   -> devices
 
 Device Farm
 ===========
+Test web and mobile applications against real desktop browser in real mobile devices and tablets
+Concurrently on multiple devices
+Ability to configure device settings
+
+AWS Backup
+===========
+Centrally manage and automate backups for AWS serivces
+On demand and scheduled backups
+Support PITR Point In Time Recovery
+Retention periods, Lifecycle management, Backup policies
+Cross Region backup
+Cross Account backup - aws organization
 
 
+Disaster Recovery Strategies
+============================
+On premise and Back up in cloud
+
+Backup and Restore
+==================
+    Backups are just store in AWS S3
+    When there is a disaster, data will be in cloud
+    Later time after disaster we can restore the data to the server
+    LOW COST
+Pilot Light
+===========
+    When there is a disaster,
+    core functions of the application will be cloud
+    Little more cost
+
+Warm standby
+    Full version of app will be ready, but in min size when there is a disaster
+    Higher than pilot light
+
+Multi site/ Hot site
+    Fully functional application at full size
+    Costliest backup
+
+CloudEndure Disaster Recovery
+=============================
+Quick and easily recover your physical virtual cloud based resources in AWS when there is a disaster
+Continuous block replication for the servers
+
+On premise Data center                  AWS cloud
+
+OS--------                             staging              PROD :
+DBs------- Could endure agent           OS APPs DBS         When there is a disaster
+Apps------                              running with low    Same app in staging will be moved to PROD
+                                        lvl configs         wtih higher PROD configuration
+
+AWS DataSync
+============
+Move large amt of data from On premise to AWS cloud
+Can sync to Amazon S3, EFS, FSx for windows
+
+Replication tasks can be scheduled hrly, daily, weekly, monthly
+Replication tasks are incremental after first full load
+
+On premise                                  AWS cloud
+
+server (with DataSync agent)        Data sync to targeted resource
+
+AWS Fault Injection Simulator
+=============================
+Fully managed service runs fault injection experiments and produce report
+fault injection experiments- stessing the application by creating disruptive events
+   and observing how system respond to that
+   and then implementing improvements
+Uncover hidden bugs and performance bottlenecks
+Suuprots: EC2 ecs eks rds
+Use prebuild templates that generate the disire disruptions
+
+AWS FIS ->
+    Experiment Templates ->
+        Apply on Resources
+            -> Monitor resources in CW
+                -> Stop experiments
+                    -> View results
+
+Well Architected Framework
+--------------------------
+5 pillers
+
+1. Operational Excellence
+    Run and monitor system to deliver business and improve supporting process and procedures
+    Design principle
+        * Inra as a code
+        * Annotate docs - automate creation of annotated docs after every build
+        * Frequent small and reversible changes
+        * Refine operational procedure - so team can be familier with it.
+        * Anticipate failure
+        * Learn from failure
+    Prepare - CloudFormation, Config
+    Operate - CloudFormation, Config, CloudTrail, CloudWatch, X-Ray
+    Evolve =- CloudFormation, CodeBuild, CodeCommit, CodeDeploy, CodePipeline
+2. Security
+    Ability to protect information systems and assest while deliverying bussiness value
+    through risk assessments and migration strategies
+    Design principle
+        Strong identity foundation - Least previlege access
+        Enable traceability - logs and metric cloud trail
+        Apply security at all level
+        Automate security practices
+        Protect data in transis and at rest - encryption
+        Keep people away from data
+        Prepare for security events
+    Identity and access management
+        IAM, STS, MFA, AWS organization
+    Detective control
+        Config, cloudTrail, CloudWatch
+    Infra protection
+        CloudFront, VPC, Sheild, WAF, Inspector
+    Data protection
+        KMS, S3, ELB, EBS, RDS
+    Incident Response
+        IAM, CW events, CloudFormation
+3. Reliability
+    Ability of a system to recover from infra or service distruptive events
+    App should run no matter there is an issue.
+    Design principle
+        * Test recover procedure
+        * Automate recovery from failure
+        * Stop guessing capasity - use auto scaling
+        * Scale horizontally to increase aggregate system availability
+        * Manage change in automation - Changes to Infra should be done in automation script
+    Foundation
+        IAM, VPC, Service limits, trusted advisor
+    Change management
+        Auto scaling, CloudWatch, Cloud trail, Config
+    Failure mgnt
+        Backups, CloudFormation, S3, glacier
+    Route 53 to redirect request
+4. Performance Efficiency
+    Ability to use computing resources efficiently to meet system requirements and
+    to maintain that efficiency as demand and technology changes
+    Design principles
+        * Advance technologies become services and we can focus on product development
+        * Go live in min
+        * Use serverless arch
+        * Experiment more ofter
+        * Be aware of all services
+    Selection
+        Auto scaling, lambda, EBS, S3, RDS
+    Review
+        CloudFormation, AWS blogs
+    Monitoring
+        CW, lambda
+    Tradeoffs
+        RDS, ElastiCache, snowball, CloudFront
+5. Cost Optimization
+    Ability to run the systems to deliver business value at lower cost
+    Design principle
+        * Adopt a consumption model - Pay for what you use
+        * Measure overall efficiency - Use CloudWatch
+        * Stop spending money on data centers
+        * Analyze and attribute expenditure
+        * Use managed and applicaion level services to reduce cost ownership
+    Expenditure awareness
+        Budgets, cost and usage report, cost explorer, reserved instance reporting
+    Cost effective resources
+        Spot instances, Reserved instances, S3 glacier
+    Matching and supply n demand
+        Auto scaling, lambda
+    Optimizing over time
+        Trust advisor, Cost and usage report, AWS news blogs
+
+AWS well architected tool
+==========================
+A tool that helps to review the system architecture against the 5 pillar of architecture
+Define the workload
+    -> Answer the question
+        -> Analyze the workload against the questions and answer
+            -> Shows improvement intems
+
+Right sizing
+============
+Right sizing is the process of choosing the right instance type and capacity as per the workload performance at lower possible cost
+Scaling when required is always a smart move.
+
+AWS Professional serives and Partner network
+=============================================
+Professional services - Team of experts
+They work alongside your team and choose member of the APN
+APN - AWS partner network
+APN Technology Partner - providing hw, connectivity, and software
+APN Consulting Partner - professional serives firm to build on cloud
+APN Training Partner -  learn AWS
+APN Competency Program
+AWS navigate program - helps partners to become better partners
+
+AWS Knowledge center
+=====================
+Frequent and common questions and answers
