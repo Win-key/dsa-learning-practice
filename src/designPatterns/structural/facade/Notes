@@ -1,0 +1,7 @@
+One common interface for the set of complex/connected/coupled interfaces.
+
+Client reaches to the common interface or Facade class
+    and facade deals with the complex sub system
+    and provides the functionality based on the input.
+
+Facade deals with multiple classes. whereas Adapter mostly works with two classes making non compatible classes to compatible.

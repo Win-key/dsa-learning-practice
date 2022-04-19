@@ -1,5 +1,7 @@
 1/17/2022
 =========
+https://d1.awsstatic.com/training-and-certification/docs-cloud-practitioner/AWS-Certified-Cloud-Practitioner_Exam-Guide.pdf
+
 Types of cloud
 1. Private cloud
     Used by single organization.
@@ -22,12 +24,26 @@ Adv:
 5. Measured service - You pay for what you use
 
 Six advantages of cloud computing
-1. Pay on demand
-2. Low economies - as AWS run in large scale serving multiple users
+1. Trade capital expense (CAPEX) for Operational Expense (OPEX)
+	- Pay on demand
+	- Reduced Total Cost of Ownership TCO and Operational expenses
+2. Benfits from massive economics of scale
+	Low price - as AWS run in large scale serving multiple users
 3. Stop guessing capacity - Can get/remove resource on demand
-4. Increase speed
+4. Increase speed and agility
 5. Maintenance of servers is avoided
-6. Go global in a min
+6. Go global in a min - Leverage the global infrastructure
+
+Problems solved by Cloud
+=========================
+Flexibility	- change resource type when needed
+Cost effectiveness - Pay as you go
+Scalability - larged HW availability and adding more nodes to handle the large nodes
+Elasticity - ability to scale in and out when needed
+High-availability - Build accross datacenter
+Agility - Rapid develop test and launch software applications
+
+
 
 Type of cloud computing
 1. Infra as a service
@@ -37,6 +53,11 @@ Type of cloud computing
 3. Software as a service
     Complete product that runs and managed by the cloud provider
 
+The 4 points of considerations when choosing an AWS Region are:
+    compliance with data governance and legal requirements,
+    proximity to customers,
+    available services and features within a Region,
+    and pricing.
 
 On-Premises      Iaas              Paas               Saas
 ===========      ====              ====               ====
@@ -1483,6 +1504,9 @@ Multi Region
     Cross Region
     Reads to local replicas and writes to master db
 
+RDS Multi-AZ deployments’ main purpose is high availability, and RDS Read replicas’ main purpose is scalability. 
+Moreover, Multi-Region deployments’ main purpose is disaster recovery and local performance
+
 ElastiCache
 ===========
 Managed Redis or Memcache
@@ -2451,6 +2475,8 @@ Scheduled Cron job :
     Based on a CRON expression trigger events that triggers the AWS Lambda to do certain operations
 Event pattern:
     based on the event pattern triggers the events and trigger alarms
+	When someone login to root account, send a mail notification
+Trigger lambda function, send sqs, sns msgs.
 
 Event Bridge
 ============
@@ -2460,6 +2486,7 @@ Partner event Bus : rcv events from SaaS applications
 Custom event bus : custom events from own applications
 
 Schema registry : Model events schema
+
 Cw events and Event Bridge are almost same, Event Bridge is used to name the new capabilities like event bus schema
 In future  Cw events can be renamed to Event Bridge
 
@@ -2591,6 +2618,8 @@ Personal Health Dashboard
 * Service Health Dashboard provide general health stores of all aws services
     Personal Health Dashboard provide the services that we use are affected or not.
 * Provides information on maintenance activity and we can plan accordingly
+* Can be integrate with event bridge. 
+https://docs.aws.amazon.com/health/latest/ug/cloudwatch-events-health.html
 
 VPC and Networking
 ===================
@@ -2725,7 +2754,7 @@ AWS Responsibility
     * Guarantee unlimited storage
     * Encryption
     * Data separation between accout
-    * AWS emps should see the customers data
+    * AWS emps should not see the customers data
 Customer Responsibility
     * Bkt configuration
     * Bkt policy / public setting
@@ -2779,6 +2808,9 @@ against 8 service
 * Lightsail resources
 * Beanstalk environments
 
+AWS Acceptable Use Policy
+=========================
+Read about aws Prohibited activities in AWS Acceptable Use Policy
 Prohibited activities
 =====================
 * DNS zone walking via aws route 53 hosted zone
@@ -2902,8 +2934,10 @@ After the assessment, we can get a report with the list of vulnerabilities
 
 AWS Config
 ==========
-* Audition and recording compliance of our aws resources
+* Auditing and recording compliance of our aws resources
 * Records configuration changes over time
+* Evaluate the compliance of the resources against set of rules.
+* Config is not going to store any parameter/keys/secrets.
 * These data can be stored in AWS S3 and can be analyzed using Athena.
 * Questions that can be solved
     - Is there any unrestricted SSH access
@@ -2912,11 +2946,17 @@ AWS Config
 * Can configure alerts from SNS
 * Per region service and can aggregate all regions and accounts data
     and analyze
+* Rules - Whal are rules that need to be compliant against the resources and evaluate compliance of resource against the rules.
+  Resource - Select the resource and see it compliance
+  Settings: turn on / off the Config.
 
 Amazon macie
 ============
 Managed data security and privacy serivce that uses ML and pattern matching algorithms
 to detect PII data.
+Job ananlyse the s3 bucket and produce findings
+	Job can be scheduled/one time job.
+	Uses an regex that matches the text and if match is true, trigger an event.
 When identifying the data macie can trigger a CloudWatch Event -> SNS or labmda or other interations
 For eg:
  S3 bkt -> Configure Macie -> CW Event bridge -> ...
@@ -3148,18 +3188,25 @@ Networking cost
         $.02/gb if using public ip/elastic IP
 
 Saving plans
+============
     Commit a certain $ amount per hr for 1 to 3 years
     Good for long term commitment
     EC2 savings plan
         72% discount
-        commit to usage of a EC2 instance family like C5 M5
+        Must choose region
+		Must choose instance type
+		Applies to EC2, ECS and EKS
+		commit to usage of a EC2 instance family like C5 M5
         Regardless of AZ, size os, tenancy
         More discount on All upfront, partial and no upfront
-
+		
     Compute savings plan
         66% discount
         Regardless of Family region size os tenancy
         Compute option: EC2 Fargate Lambda
+		Any region, no restriction, can change region over time.
+		Any instance type, no restriction, , can change instance type  over time.
+		Applies to EC2, ECS, EKS and Fargate
 
 Set up using AWS Cost Explorer console
 
