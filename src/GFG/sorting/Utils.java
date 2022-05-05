@@ -14,9 +14,25 @@ public class Utils {
     public static void print(int ... ar) {
         System.out.println(Arrays.toString(ar));
     }
+    public static void print(int[][] ar) {
+        System.out
+            .println(Arrays
+                .stream(ar)
+                .map(a -> Arrays.stream(a)
+                    .mapToObj(Integer::toString)
+                    .reduce((x, y) -> (x+ " " + y)).get())
+                .reduce((x, y) -> (x+ "\n" + y)).get());
+        System.out.println();
+    }
 
     public static void print(Object o) {
         System.out.println(o);
+    }
+
+    public static void swap(int[][] ar, int i1, int j1, int i2, int j2) {
+        int temp = ar[i1][j1];
+        ar[i1][j1] = ar[i2][j2];
+        ar[i2][j2] = temp;
     }
 
     public static class Interval {

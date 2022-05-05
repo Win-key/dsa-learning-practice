@@ -516,6 +516,9 @@ Reserved instances
 * Can reserve a specific instance type
 * Recommended for steady state instance - database
 
+* In addition to Amazon EC2, reservation models are available for 
+	Amazon RDS, Amazon ElastiCache, OpenSearch Service, Amazon Redshift, and Amazon DynamoDB.
+
 Other Variants of Reserved instances
 ===================================
 Convertible Reserved instances
@@ -594,7 +597,7 @@ Elastic Block Store
     - To move the volume, you need to snapshot.
 * At a time, it can be attached to the one instance alone.(At CCP level)
 * Configured capacity will be provided.(GB and IOPS)
-    - Billed what capacity and IOPS
+    - Billed what provisioned capacity and IOPS
     - Can change the capacity over time if needed.
 * Multiple EBS volumes can be attached to a ec2 instance
 * EBS volume and ec2 has to be in same az.
@@ -790,7 +793,7 @@ Regions and AZs
         But that's gonna create another EBS volume.
         Replication is done within AZ
     EFS -
-        One EFS can be mounted to multiple EC2 instances across AZs and regions.
+        One EFS can be mounted to multiple EC2 instances across AZs.
         If one EC2 adds a file in the EFS, all other EC2s will able to see it.
         Not specific to region/az
         Replication is done across regions/AZs
@@ -883,12 +886,12 @@ ELB (Elastic Load Balancer)
 Type of LBs
 * ALB
     - Suitable for optimal load for web servers
-    - Http/Https2
+    - Http/Https2 /layer 7
 * NLB
     - Ultra high performance
-    - Support for TCP/UDP
+    - Support for TCP/UDP layer 4/3
 * Gateway Load Balancer
-    -
+    - For 3 party virtual application / deploy scale up and down taken care by GWLB
 * Classical
     - Not used anymore.
 
@@ -930,6 +933,11 @@ Use cases
 * Data lakes and big data analytics
 * Software delivery
 * Static website
+
+With the standard storage class you pay a per GB/month storage fee, and data transfer out of S3. 
+Standard-IA and One Zone-IA have a minimum capacity charge per object. 
+Standard-IA, One Zone-IA, and Glacier also have a retrieval fee. 
+You don’t pay for data into S3 under any storage class.
 
 Buckets
 =======
@@ -2725,10 +2733,10 @@ One single GW to connect with multiple VPCs in transitive manner
 
 AWS Shared Responsibility Model
 ===============================
-AWS Responsibility
+AWS Responsibility - Security Of the Cloud
     * Protecting infra - HW SW facilities and NW
     * Managed services like s3, rds, dynamodb
-Customer Responsibility
+Customer Responsibility - Security In the Cloud
     * For EC2 instance, customer is res. for managing the guest OS
         security patches and updates, firewall, network, IAM
     * Encryption application data
@@ -3596,7 +3604,7 @@ AWS FIS ->
 
 Well Architected Framework
 --------------------------
-5 pillers
+6 pillers
 
 1. Operational Excellence
     Run and monitor system to deliver business and improve supporting process and procedures
@@ -3680,7 +3688,8 @@ Well Architected Framework
         Auto scaling, lambda
     Optimizing over time
         Trust advisor, Cost and usage report, AWS news blogs
-
+6. Sustainability
+	Ability to sustain over the enviromental impacts.
 AWS well architected tool
 ==========================
 A tool that helps to review the system architecture against the 5 pillar of architecture
@@ -3702,7 +3711,7 @@ APN - AWS partner network
 APN Technology Partner - providing hw, connectivity, and software
 APN Consulting Partner - professional serives firm to build on cloud
 APN Training Partner -  learn AWS
-APN Competency Program
+APN Competency Program - 
 AWS navigate program - helps partners to become better partners
 
 AWS Knowledge center
