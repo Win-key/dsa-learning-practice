@@ -55,4 +55,15 @@ public class Utils {
         }
     }
 
+    public static int[][] getMatrix(int n, int m) {
+        int[][] mat = new int[n][m];
+        int t = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                mat[i][j] = t++;
+            }
+        }
+        return mat;
+    }
+
 }

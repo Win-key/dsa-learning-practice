@@ -4,57 +4,46 @@ import GFG.sorting.Utils;
 
 public class SpiralTraversal {
     public static void main(String[] args) {
-        int[][] ar = new int[9][9];
+        int[][] ar = new int[3][4];
         int t = 1;
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
                 ar[i][j] = t++;
             }
         }
 
         Utils.print(ar);
 
-        print(ar, 0, 0, 9, 9);
-
+        print(ar);
+        Utils.print("\n");
         ar = new int[1][4];
         ar[0] = new int[]{1,2,3,4};
         Utils.print(ar);
-        print(ar, 0, 0, 1, 4);
+        print(ar);
     }
-    public static void print(int[][] mat, int i, int j, int n, int m) {
-        if (n < 1 || m < 1)
-            return;
 
-        if (n == 1) {
-            for (int k = j; k < m; k++) {
-                System.out.print(mat[0][k] + " ");
-            }
-            System.out.println();
-            return;
-        }
-        if (m == 1) {
-            for (int k = j; k < n; k++) {
-                System.out.print(mat[k][0] + " ");
-            }
-            System.out.println();
-            return;
-        }
+    public static void print(int[][] mat) {
+        int m = mat.length, n = mat[0].length;
+        int t = 0, b = m - 1, l = 0, r = n - 1;
 
-        for (int k = i; k < n - 1; k++) {
-            for (int l = j; l < m; l++) {
-                if (k == i || l == m - 1)
-                    System.out.print(mat[k][l] + " ");
+        while (t <= b && l <= r ) {
+            for (int i = l; i <= r; i++) {
+                System.out.print(mat[t][i] + " ");
+            } t++;
+            for (int i = t; i <= b; i++) {
+                System.out.print(mat[i][r] + " ");
+            } r--;
+            if(t <= b) {
+                for (int i = r; i >= l; i--) {
+                    System.out.print(mat[b][i] + " ");
+                } b--;
+            }
+            if(l <= r) {
+                for (int i = b; i >= t; i--) {
+                    System.out.print(mat[i][l] + " ");
+                } l++;
             }
         }
-
-        for (int k = n - 1; k > i; k--) {
-            for (int l = m - 1; l >= j; l--) {
-                if (k == m - 1 || l == j)
-                    System.out.print(mat[k][l] + " ");
-            }
-        }
-
-        print(mat, i + 1, j + 1, n - 1, m - 1);
     }
 
 }
