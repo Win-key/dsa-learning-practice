@@ -1,0 +1,8 @@
+Proxy
+https://refactoring.guru/design-patterns/proxy
+
+1. Proxy controls the access to the real subject
+2. Implements the same insterface of the real subject
+3. Proxy caches the real subject in it.
+4. Proxy initialize the real subject lazily and have a local reference.
+5. After the initialization, the calls will be using the local reference in proxy.
