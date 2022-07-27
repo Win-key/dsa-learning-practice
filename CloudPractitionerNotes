@@ -166,7 +166,7 @@ Go to
 IAM - MFA : Multi Factor Authentication
 ================================================================================
 Advised to protect the root account with MFA, but can be done for all IAM users as well.
-Combination of password and token generated from Authorized device.
+Combination of password and token generated from Authorized communicationDevice.
 
 How to access AWS
 =================
@@ -577,7 +577,7 @@ Shared Responsibility between AWS and User on EC2
 
 Ec2 Instance Store
 ==================
-* Storage HW device witnin the host machine.
+* Storage HW communicationDevice witnin the host machine.
 * Provides low latency and high throughput
 * Selecting Instance store or EBS is based on instance type.
 * it offers temporary storage. In case of any Instance Failure, you will lose your data.
@@ -617,7 +617,7 @@ This property allows the user to decide whether to delete the storage on instanc
 
 
 Good read for root volume to understand difference between EBS backed instance and Instance store backed instance
-https://faun.pub/aws-understanding-root-device-volume-76df89d18ec4
+https://faun.pub/aws-understanding-root-communicationDevice-volume-76df89d18ec4
 
 EBS Multi-Attach
 ================
@@ -671,8 +671,8 @@ AMI overview
 
 Types of AMIs
 =============
-Amazon EBS-backed AMI – The root device for an instance launched from the AMI is an Amazon Elastic Block Store (Amazon EBS) volume created from an Amazon EBS snapshot.
-Amazon instance store-backed AMI – The root device for an instance launched from the AMI is an instance store volume created from a template stored in Amazon S3.
+Amazon EBS-backed AMI – The root communicationDevice for an instance launched from the AMI is an Amazon Elastic Block Store (Amazon EBS) volume created from an Amazon EBS snapshot.
+Amazon instance store-backed AMI – The root communicationDevice for an instance launched from the AMI is an instance store volume created from a template stored in Amazon S3.
 
 Create an AMI
 =============
@@ -1303,12 +1303,12 @@ This devices are used when we have TBs or PBs of data that needs to be stored in
 In that case, that will take a while to upload the data over internet.
 
 On such cases, AWS provide a set of physical devices for different use cases.
-On requesting AWS, they will send the device by courier. And we upload the data and send back to AWS.
+On requesting AWS, they will send the communicationDevice by courier. And we upload the data and send back to AWS.
 
 Snowball Edge
 =============
 * Physical portable data transfer solution : TBs/PBs of data IN or OUT.
-* Send over device instead of Network
+* Send over communicationDevice instead of Network
 * Pay per data transfer job.
 * Provide block storage and s3 compatible storage
 * Options
@@ -1322,14 +1322,14 @@ Snowball Edge
 
 AWS Snowcone
 =============
-* Small light weight device
+* Small light weight communicationDevice
 * Can store only 8 TB of data
 * Can sustain any hard enviroments
 * Pre-installed data sync agent
 * Can send to AWS by post / Can upload via Data sync over internet.
 * Use case:
     Used where there is no internet connection
-    This device will collect the data offline
+    This communicationDevice will collect the data offline
     and can be brought to a place where internet is available and uploaded via internet
     Or Can send to AWS via post.
 
@@ -3493,7 +3493,7 @@ For lower latency, deploy workspaces in the regions of the users
 AppStream 2.0
 =============
 Stream a desktop application to web browsers
-Work with any device that has web browser
+Work with any communicationDevice that has web browser
 Allow to configure an instance type per application type (CPU, RAM, GPU)
 
 Sumerian
@@ -3525,7 +3525,7 @@ Device Farm
 ===========
 Test web and mobile applications against real desktop browser in real mobile devices and tablets
 Concurrently on multiple devices
-Ability to configure device settings
+Ability to configure communicationDevice settings
 
 AWS Backup
 ===========
