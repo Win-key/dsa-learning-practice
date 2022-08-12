@@ -1,6 +1,8 @@
 package GFG.sorting;
 
 
+import utils.Utils;
+
 // Naive way to solve this problem is
 //  that quicksort the array and find the smallest diff between the elements
 // that would run in nlog(n) + n

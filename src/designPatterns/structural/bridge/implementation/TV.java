@@ -1,6 +1,6 @@
 package designPatterns.structural.bridge.implementation;
 
-import GFG.sorting.Utils;
+import utils.Utils;
 
 public class TV implements CommunicationDevice {
 

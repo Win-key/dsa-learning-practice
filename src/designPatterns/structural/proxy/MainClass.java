@@ -1,6 +1,6 @@
 package designPatterns.structural.proxy;
 
-import GFG.sorting.Utils;
+import utils.Utils;
 import designPatterns.structural.proxy.impl.ProxyConnection;
 
 public class MainClass {

@@ -1,6 +1,6 @@
 package GFG.strings;
 
-import GFG.sorting.Utils;
+import utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;

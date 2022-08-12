@@ -1,6 +1,6 @@
 package designPatterns.structural.proxy.impl;
 
-import GFG.sorting.Utils;
+import utils.Utils;
 import designPatterns.structural.proxy.DbConnection;
 
 import java.util.Objects;

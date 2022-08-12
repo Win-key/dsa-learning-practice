@@ -1,6 +1,6 @@
 package GFG.matrix;
 
-import GFG.sorting.Utils;
+import utils.Utils;
 
 public class SpiralTraversal {
     public static void main(String[] args) {

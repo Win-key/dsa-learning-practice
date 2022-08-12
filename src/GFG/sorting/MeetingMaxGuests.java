@@ -1,6 +1,6 @@
 package GFG.sorting;
 
-import GFG.sorting.Utils.Interval;
+import utils.Utils.Interval;
 
 import java.util.ArrayList;
 import java.util.Arrays;

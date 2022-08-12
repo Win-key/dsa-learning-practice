@@ -1,4 +1,4 @@
-package GFG.sorting;
+package utils;
 
 import java.util.Arrays;
 
@@ -36,8 +36,8 @@ public class Utils {
     }
 
     public static class Interval {
-        int x;
-        int y;
+        public int x;
+        public int y;
 
         private Interval(int x, int y) {
             this.x = x;
@@ -50,7 +50,7 @@ public class Utils {
         public String toString() {
             return "{ x : " + x +", y : " + y +'}';
         }
-        static Interval of(int x, int y) {
+        public static Interval of(int x, int y) {
             return new Interval(x, y);
         }
     }

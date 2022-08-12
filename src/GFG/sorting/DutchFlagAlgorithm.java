@@ -1,6 +1,8 @@
 package GFG.sorting;
 
 
+import utils.Utils;
+
 /*
 * This video discusses a famous interview problem in which you need to segregate an array of elements containing three types of elements.
 * The types are:

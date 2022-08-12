@@ -1,6 +1,6 @@
 package leetcode.arrays;
 
-import GFG.sorting.Utils;
+import utils.Utils;
 
 public class CountOnes {
 

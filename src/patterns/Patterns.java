@@ -264,10 +264,11 @@ public class Patterns {
 			tempI = tempI==n ? 0 : tempI+1;
 			System.out.println();
 		}
-		
-		/*
-		 * for(let i=0;i<r;i++){ for(let j=0;j<c;j++){ str+= (i%(n+1)==0 || j%(n+1)==0) ? '*':' '
-		 * */
+
+//		for (let i = 0; i < r; i++) {
+//			for (let j = 0; j < c; j++) {
+//				str += (i % (n + 1) == 0 || j % (n + 1) == 0) ? '*' : ' '
+
 	}
 	
 	private static void pattern9(int r, int c, int n) {

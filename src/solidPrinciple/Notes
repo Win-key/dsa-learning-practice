@@ -1,0 +1,12 @@
+SOLID
+======
+
+1. Single Responsibility Principle
+2. Open Closed principle
+3. Liskov's Substitution Principle
+4. Interface segregation principle
+5. Dependency inversion principle
+
+Liskov's Substitution Principle
+===============================
+
