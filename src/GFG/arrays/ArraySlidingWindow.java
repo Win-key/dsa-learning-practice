@@ -6,9 +6,9 @@ public class ArraySlidingWindow {
 
     public static void main(String[] args) {
         System.out.println(maxSumOfKConsecutive(3, 1,8,30,-5,20,7));
-        System.out.println(sumExistInNonNegativeArray(33, 1, 4, 20,3,10,5));
+        System.out.println(sumExistInNonNegativeArray(33, 1, 3, 20,3,5,10));
         System.out.println(sumExistInNonNegativeArray(7, 1, 4, 0,0,3,10,5));
-        System.out.println(sumExistInNonNegativeArray(3, 2, 4));
+        System.out.println(sumExistInNonNegativeArray(3, 2, 4, 1));
 
         nbonacci(3, 10);
     }

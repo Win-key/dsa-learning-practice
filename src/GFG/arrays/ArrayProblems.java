@@ -1,35 +1,31 @@
 package GFG.arrays;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArrayProblems {
 
 
-
     public static void main(String[] args) throws NoSuchMethodException {
-        Method main = ArrayProblems.class.getDeclaredMethod("main", String[].class);
-        
+
         reverseInGroups(new ArrayList<>(List.of(1, 2, 3, 4, 5)), 5, 3);
         reverseInGroups(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7)), 7, 3);
-        reverseInGroups(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8 ,9)), 9, 5);
-        reverseInGroups(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8 ,9)), 9, 9);
+        reverseInGroups(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9)), 9, 5);
+        reverseInGroups(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9)), 9, 9);
         reverseInGroups(new ArrayList<>(List.of(10, 5, 15, 25, 20, 6, 7)), 7, 4);
 
-        reverseInGroups(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8 ,9)), 9, 0);
-
+        reverseInGroups(new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9)), 9, 0);
 
 
     }
 
     static void reverseInGroups(ArrayList<Integer> arr, int n, int k) {
         // code here
-        if(k < 1 || n < 1) {
+        if (k < 1 || n < 1) {
             return;
         }
         for (int i = 0; i < n; i += k) {
-            reveres(i, (i + k - 1) >= n ? n - 1 : (i + k - 1), arr);
+            reveres(i, i + k - 1 - (i + k) % n, arr);
         }
 
         System.out.println(arr.toString());

@@ -1,5 +1,5 @@
 package GFG.arrays;
-
+//https://www.geeksforgeeks.org/equilibrium-index-of-an-array/
 public class EquilibriumPoint {
 
     public static void main(String[] args) {

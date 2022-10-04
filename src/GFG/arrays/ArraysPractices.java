@@ -1,5 +1,7 @@
 package GFG.arrays;
 
+import utils.Utils;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +10,7 @@ import java.util.stream.IntStream;
 
 public class ArraysPractices {
     public static void main(String[] args) {
-        System.out.println(find(1, 2, 3, 10, 4, 20, 6, 4, 7));
+        System.out.println(findSecondMax(1, 2, 3, 10, 4, 20, 6, 4, 7));
         System.out.println(Arrays.toString(reverseAll(1, 2, 3, 10, 4, 20, 6, 4, 7)));
         System.out.println(replaceDups(1, 2, 3, 4, 4, 5, 6, 7, 7, 8, 8, 8, 8, 9));
         System.out.println(Arrays.toString(moveZeros(6, 2, 0, 10, 4, 0, 6, 8, 0)));
@@ -24,23 +26,25 @@ public class ArraysPractices {
         frequenciesInSortedArray(40, 50, 50, 50);
 
         // stock buy and sell
-        System.out.println(findMaxStockProfit(1, 5, 3, 8, 12));
-        System.out.println(findMaxStockProfit(1, 5, 3, 1, 2, 8));
-        System.out.println(findMaxStockProfit(7, 1, 5, 3, 6, 4));
+        System.out.println("findMaxStockProfit "+findMaxStockProfit(1, 5, 3, 8, 12));
+        System.out.println("findMaxStockProfit "+findMaxStockProfit(1, 5, 3, 1, 2, 8));
+        System.out.println("findMaxStockProfit "+findMaxStockProfit(7, 1, 5, 3, 6, 4));
 
-        System.out.println(trappingRainWater(3, 0, 1, 2, 5));
-        System.out.println(trappingRainWater(3, 0, 1, 2, 7, 5, 6));
-        System.out.println(maxConOnes(1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0));
-        System.out.println(maxSubArray2(1, 2, 3, 4));
-        System.out.println(maxSubArray2(2, 3, -8, 7, -1, 2, 3));
+        System.out.println("trappingRainWater " +trappingRainWater(3, 0, 1, 2, 5));
+        System.out.println("trappingRainWater " +trappingRainWater(3, 0, 1, 2, 7, 5, 6));
+        System.out.println("maxConOnes : "+maxConOnes(1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0));
+        // ytyt
+        // Kadane's algorithm
+        System.out.println("maxSubArray2 : "+maxSubArray2(1, 2, 3, 4));
+        System.out.println("maxSubArray2 : "+maxSubArray2(2, 3, -8, 7, -1, 2, 3));
         System.out.println("maxEvenOddSubArray2 : " + maxEvenOddSubArray2(10, 12, 14, 7, 8));
         System.out.println("maxEvenOddSubArray2 : " + maxEvenOddSubArray2(7, 10, 13, 14));
         System.out.println("maxEvenOddSubArray2 : " + maxEvenOddSubArray2(10, 12, 8, 4));
         System.out.println("maxEvenOddSubArray2 : " + maxEvenOddSubArray2(5, 10, 20, 6, 3, 8));
         System.out.println("maxCircularSubArray " + maxCircularSubArray(5, -2, 3, 4));
         System.out.println(maxCircularSubArray(3, -4, 5, 6, -8, 7));
-        System.out.println(majorityElementsMooreAlgo(8, 3, 4, 8, 8));
-        System.out.println(majorityElementsMooreAlgo(3, 7, 4, 7, 7, 5));
+        System.out.println("majorityElementsMooreAlgo : " +majorityElementsMooreAlgo(8, 3, 4, 8, 8));
+        System.out.println("majorityElementsMooreAlgo : " +majorityElementsMooreAlgo(3, 7, 4, 7, 7, 5));
         minGroupFlipsMoreEfficient(1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1);
         minGroupFlipsMoreEfficient(1, 1, 0, 0, 0, 1);
         minGroupFlipsMoreEfficient(0, 1, 0, 0, 0, 1);
@@ -61,6 +65,7 @@ public class ArraysPractices {
         return max;
     }
 
+    // https://www.geeksforgeeks.org/boyer-moore-majority-voting-algorithm/
     private static int majorityElementsMooreAlgo(int... ar) {
         int index = 0, count = 1;
         // vote the elements
@@ -206,6 +211,7 @@ public class ArraysPractices {
 
     // O(n)
     private static int trappingRainWater(int... ar) {
+        Utils.print(ar);
         int total = 0;
         int[] left = new int[ar.length], right = new int[ar.length];
         left[0] = ar[0];
@@ -241,6 +247,7 @@ public class ArraysPractices {
 
     // You buy and sell
     private static int findMaxStockProfit(int... ar) {
+        Utils.print(ar);
         int profit = 0;
         for (int i = 1; i < ar.length; i++) {
             if (ar[i] > ar[i - 1]) {
@@ -250,7 +257,7 @@ public class ArraysPractices {
         return profit;
     }
 
-    public static int find(int... ar) {
+    public static int findSecondMax(int... ar) {
         if (Objects.isNull(ar) || ar.length < 2) {
             throw new IllegalStateException("Invalid array. Array should contain at-least 2 elements");
         }
@@ -339,7 +346,7 @@ public class ArraysPractices {
     }
 
     public static void leftRotateByK2(int k, int... ar) {
-        System.out.println(Arrays.toString(ar));
+        System.out.println("leftRotateByK2 : "+ Arrays.toString(ar));
         reverse(0, k - 1, ar);
         reverse(k, ar.length - 1, ar);
         reverse(0, ar.length - 1, ar);
@@ -356,6 +363,7 @@ public class ArraysPractices {
         }
     }
 
+    // Max diff of current element with an element to it's right
     public static int maxDiff(int... ar) {
         int dif = ar[1] - ar[0], min = ar[0];
         for (int i = 1; i < ar.length; i++) {
@@ -446,6 +454,7 @@ public class ArraysPractices {
         }
     }
 
+    // https://www.geeksforgeeks.org/minimum-group-flips-to-make-binary-array-elements-same/
     public static void minGroupFlipsMoreEfficient(int... ar) {
         System.out.println(Arrays.toString(ar));
         for (int i = 1; i < ar.length; i++) {

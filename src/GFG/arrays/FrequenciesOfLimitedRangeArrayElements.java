@@ -40,6 +40,14 @@ import java.util.List;
  * 3 occurring 4 times.
  * 4 occurring 0 times.
  *
+ * for(i to n-1) {
+ *     arr[arr[i]%(P+1) - 1] += (P+1);
+ * }
+ *
+ * for(i to n-1) {
+ *     syso('i+1' appears 'ar[i]/(P+1)' times)
+ * }
+ *
  */
 
 public class FrequenciesOfLimitedRangeArrayElements {
