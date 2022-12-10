@@ -13,6 +13,7 @@ public class PracticeProblem {
         System.out.println("abbbba : "+isPalindrome("abbbba", 0, 5));
         System.out.println("sumOfDigits : "+sumOfDigits(12345, 0));
 
+        // https://www.geeksforgeeks.org/maximise-number-of-cuts-in-a-rod-if-it-can-be-cut-only-in-given-3-sizes/
         System.out.println("ropeCuts : "+ropeCuts(23, 11, 9, 12));
         System.out.println("ropeCuts : "+ropeCuts(5, 2, 5, 1));
         System.out.println("ropeCuts : "+ropeCuts(5, 4, 2, 6));

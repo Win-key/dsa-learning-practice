@@ -1,13 +1,11 @@
-package Aoc.Y2021;
-
-import Aoc.Y2021.input.DataReader;
+package Aoc.input;
 
 import java.util.Arrays;
 import java.util.List;
 
 public abstract class BaseClass {
 
-    List<String> input;
+    public List<String> input;
 
     protected BaseClass(){
         try {

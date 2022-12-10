@@ -1,5 +1,7 @@
 package GFG.arrays;
 
+import utils.Utils;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,6 +39,9 @@ public class PrefixSumPractices {
         System.out.println("subArraySumZero : " + subArraySumZero(1, 8, -2, -3, 3, 1, 1, 6));
         System.out.println("subArraySumZero : " + longestSubArWithEq0and1(0,0,0,1,1,1,0,0,0));
         System.out.println("subArraySumZero : " + longestSubArWithEq0and1(0,0,1,1));
+
+        Utils.print("Sub array with given sum "+ subArrayWithGivenSum(13, 1,4,20,3,10,5));
+        Utils.print("Sub array with given sum "+ subArrayWithGivenSum(19, 1,4,20,3,10,5));
     }
 
     private static int longestSubArWithEq0and1(int... ar) {
@@ -169,6 +174,22 @@ public class PrefixSumPractices {
             return 0;
         }
         return x == 0 ? ar[y] : ar[y] - ar[x - 1];
+    }
+
+    private static boolean subArrayWithGivenSum(int given, int ... ar) {
+        Utils.print("Given = "+ given + " Ar = " + Arrays.toString(ar));
+        int sum = ar[0];
+        int i = 1, j = 0, n = ar.length;
+        while (i < n && j < n) {
+            if(sum < given) {
+                sum += ar[i++];
+            } else if(sum > given) {
+                sum -= ar[j++];
+            }else {
+                return true;
+            }
+        }
+        return sum == given;
     }
 
 

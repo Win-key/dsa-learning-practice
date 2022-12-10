@@ -1,5 +1,7 @@
 package Aoc.Y2021;
 
+import Aoc.input.BaseClass;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

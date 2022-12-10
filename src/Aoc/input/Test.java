@@ -1,4 +1,4 @@
-package Aoc.Y2021.input;
+package Aoc.input;
 
 public class Test {
 

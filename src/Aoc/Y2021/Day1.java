@@ -1,6 +1,6 @@
 package Aoc.Y2021;
 
-import Aoc.Y2021.input.DataReader;
+import Aoc.input.DataReader;
 
 import java.util.List;
 import java.util.stream.Collectors;

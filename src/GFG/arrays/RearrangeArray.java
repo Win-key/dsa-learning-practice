@@ -1,7 +1,7 @@
 package GFG.arrays;
 
 import java.util.Arrays;
-
+// https://www.geeksforgeeks.org/rearrange-given-array-place/
 public class RearrangeArray {
 
     public static void main(String[] args) {

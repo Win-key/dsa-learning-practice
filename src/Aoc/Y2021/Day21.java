@@ -1,5 +1,7 @@
 package Aoc.Y2021;
 
+import Aoc.input.BaseClass;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

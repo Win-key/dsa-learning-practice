@@ -1,6 +1,6 @@
 package general;
 
-import Aoc.Y2021.input.DataReader;
+import Aoc.input.DataReader;
 
 import java.util.ArrayList;
 import java.util.Comparator;
