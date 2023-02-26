@@ -13,9 +13,13 @@ public class MaxSubSumInCircularArray {
     // n: size of array
     //Function to find maximum circular subarray sum.
     static int circularSubarraySum(int a[], int n) {
-        
+        if(n == 1)
+            return a[0];
         // Your code here
-        return Integer.max(kadane(a,n), reverseKadane(a,n));
+        int normalRes = kadane(a,n);
+        if(normalRes < 0)
+            return normalRes;
+        return Integer.max(normalRes, reverseKadane(a,n));
     }
     
     private static int kadane(int[] a, int n) {
